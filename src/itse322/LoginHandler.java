@@ -4,24 +4,23 @@
  */
 package itse322;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.sql.*;
 
 /**
  *
  * @author Zenjar
  */
 public class LoginHandler {
-    private static ArrayList<Integer> clientIDs;
-    private static ArrayList<String> clientPasses;
-    
-    public static void init() {
-        int[] clientIDArray = {123, 321, 231, 232};
-        String[] clientPassArray = {"test", "test2", "test3", "test4"};
-        clientIDs = new ArrayList(Arrays.asList(clientIDArray));
-    }
-    
-    public static boolean checkUser(int userID, String userPass) {
+    public static String checkUser(int userID, String userPass) {
+        ResultSet users = DBHandler.query("SELECT * FROM users_creds WHERE user_id=? AND user_pass=?", userID, userPass); 
+        String type = "";
         
+        try {
+            if (users.next()) type = users.getString("user_type");
+        } catch (SQLException exp) {
+            System.out.println(exp);
+        }
+        
+        return type;
     }
 }

@@ -4,6 +4,10 @@
  */
 package itse322;
 
+import javax.swing.*;
+import java.sql.*;
+import java.util.ArrayList;
+
 /**
  *
  * @author Zenjar
@@ -15,6 +19,7 @@ public class AdminUI extends javax.swing.JFrame {
      */
     public AdminUI() {
         initComponents();
+        userIDs = new ArrayList<>();
     }
 
     /**
@@ -33,6 +38,24 @@ public class AdminUI extends javax.swing.JFrame {
         coachListScrollPane = new javax.swing.JScrollPane();
         coachListList = new javax.swing.JList<>();
         coachInfoPanel = new javax.swing.JPanel();
+        firstNameLabel = new javax.swing.JLabel();
+        firstNameTextField = new javax.swing.JTextField();
+        lastNameLabel = new javax.swing.JLabel();
+        lastNameTextField = new javax.swing.JTextField();
+        birthDateLabel = new javax.swing.JLabel();
+        phoneLabel = new javax.swing.JLabel();
+        phoneTextField = new javax.swing.JTextField();
+        emailLabel = new javax.swing.JLabel();
+        emailTextField = new javax.swing.JTextField();
+        salaryLabel = new javax.swing.JLabel();
+        salaryTextField = new javax.swing.JTextField();
+        firstYearLabel = new javax.swing.JLabel();
+        newUpdateButton = new javax.swing.JButton();
+        removeButton = new javax.swing.JButton();
+        firstYearSpinner = new javax.swing.JSpinner();
+        birthDateSpinner = new javax.swing.JSpinner();
+        passwordField = new javax.swing.JPasswordField();
+        passwordLabel = new javax.swing.JLabel();
         clientManagementPanel = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel1 = new javax.swing.JPanel();
@@ -41,15 +64,23 @@ public class AdminUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         coachManagementSplitPane.setDividerLocation(150);
 
-        coachListList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "ali mohamed", "mohamed ali", "ahmed mohamed", "ahmed ali", "mohamed ahmed", "ali ahmed" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         coachListList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        coachListList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                coachListListValueChanged(evt);
+            }
+        });
         coachListScrollPane.setViewportView(coachListList);
 
         javax.swing.GroupLayout coachListPanelLayout = new javax.swing.GroupLayout(coachListPanel);
@@ -60,22 +91,122 @@ public class AdminUI extends javax.swing.JFrame {
         );
         coachListPanelLayout.setVerticalGroup(
             coachListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(coachListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+            .addComponent(coachListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
         );
 
         coachManagementSplitPane.setLeftComponent(coachListPanel);
 
         coachInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Coach Info"));
 
+        firstNameLabel.setText("First Name:");
+
+        lastNameLabel.setText("Last Name:");
+
+        birthDateLabel.setText("Birth Date:");
+
+        phoneLabel.setText("Phone Number:");
+
+        emailLabel.setText("Email:");
+
+        salaryLabel.setText("Salary:");
+
+        firstYearLabel.setText("First Coachin Year:");
+
+        newUpdateButton.setText("Add");
+        newUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newUpdateButtonActionPerformed(evt);
+            }
+        });
+
+        removeButton.setText("Remove");
+
+        firstYearSpinner.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.YEAR));
+        firstYearSpinner.setEditor(new javax.swing.JSpinner.DateEditor(firstYearSpinner, "yyyy"));
+
+        birthDateSpinner.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(946713480000L), null, null, java.util.Calendar.DAY_OF_MONTH));
+        birthDateSpinner.setEditor(new javax.swing.JSpinner.DateEditor(birthDateSpinner, "dd/MM/yyyy"));
+
+        passwordLabel.setText("Pass:");
+
         javax.swing.GroupLayout coachInfoPanelLayout = new javax.swing.GroupLayout(coachInfoPanel);
         coachInfoPanel.setLayout(coachInfoPanelLayout);
         coachInfoPanelLayout.setHorizontalGroup(
             coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 370, Short.MAX_VALUE)
+            .addGroup(coachInfoPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(firstYearSpinner)
+                    .addGroup(coachInfoPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(firstNameTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(firstNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                                .addComponent(birthDateLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(emailLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(emailTextField, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(firstYearLabel)
+                            .addComponent(removeButton)))
+                    .addComponent(birthDateSpinner))
+                .addGap(18, 18, 18)
+                .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(coachInfoPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(newUpdateButton))
+                    .addGroup(coachInfoPanelLayout.createSequentialGroup()
+                        .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(salaryLabel)
+                            .addComponent(phoneLabel)
+                            .addComponent(lastNameLabel)
+                            .addComponent(lastNameTextField)
+                            .addComponent(phoneTextField)
+                            .addComponent(salaryTextField)
+                            .addComponent(passwordLabel)
+                            .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
+                        .addGap(0, 47, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         coachInfoPanelLayout.setVerticalGroup(
             coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 330, Short.MAX_VALUE)
+            .addGroup(coachInfoPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(firstNameLabel)
+                    .addComponent(lastNameLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(birthDateLabel)
+                    .addComponent(phoneLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(phoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(birthDateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(emailLabel)
+                    .addComponent(salaryLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(salaryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(firstYearLabel)
+                    .addComponent(passwordLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(firstYearSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(newUpdateButton)
+                    .addComponent(removeButton))
+                .addContainerGap())
         );
 
         coachManagementSplitPane.setRightComponent(coachInfoPanel);
@@ -109,7 +240,7 @@ public class AdminUI extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 356, Short.MAX_VALUE)
+            .addGap(0, 418, Short.MAX_VALUE)
         );
 
         jSplitPane1.setLeftComponent(jPanel1);
@@ -122,7 +253,7 @@ public class AdminUI extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 356, Short.MAX_VALUE)
+            .addGap(0, 418, Short.MAX_VALUE)
         );
 
         jSplitPane1.setRightComponent(jPanel2);
@@ -158,8 +289,125 @@ public class AdminUI extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        updateCoachList();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        DBHandler.close();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void newUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newUpdateButtonActionPerformed
+        java.util.Date birthDateTemp = (java.util.Date) birthDateSpinner.getValue();
+        java.sql.Date birthDate = new java.sql.Date(birthDateTemp.getTime());
+        java.util.Date firstYearTemp = (java.util.Date) firstYearSpinner.getValue();
+        java.sql.Date firstYear = new java.sql.Date(firstYearTemp.getTime());
+        
+        if (newUpdateButton.getText().equals("Add")) {
+            DBHandler.update("INSERT INTO users_creds (user_type, user_pass) VALUES('coach', ?)", passwordField.getText());
+            
+            int id = -1;
+            ResultSet idResults = DBHandler.query("SELECT LAST_INSERT_ID() FROM users_creds");
+            try {
+                if(!idResults.next()) throw new SQLException("User Creation Failed");
+                id = idResults.getInt("LAST_INSERT_ID()");
+            } catch (SQLException exp) {
+                System.out.println(exp);
+            }
+            
+            DBHandler.update("INSERT INTO coaches VALUES(?, ?, ?, ?, ?, ?, ? ,?)",
+                    id,
+                    firstNameTextField.getText(),
+                    lastNameTextField.getText(),
+                    birthDate,
+                    phoneTextField.getText(),
+                    emailTextField.getText(),
+                    firstYear.toLocalDate().getYear(),
+                    salaryTextField.getText()
+            );
+            
+            updateCoachList();
+            return;
+        }
+        
+        int id = userIDs.get(coachListList.getSelectedIndex());
+        
+        if (!passwordField.getText().equals("")) {
+            DBHandler.update("UPDATE users_creds SET user_pass=? WHERE id=?", id);
+        }
+        DBHandler.update("UPDATE coaches SET first_name=?, last_name=?, birth_date=?, tel=?, email=?, first_year=?, salary=? WHERE id=?",
+            firstNameTextField.getText(),
+            lastNameTextField.getText(),
+            birthDate,
+            phoneTextField.getText(),
+            emailTextField.getText(),
+            firstYear,
+            salaryTextField.getText(),
+            id
+        );
+    }//GEN-LAST:event_newUpdateButtonActionPerformed
+    
+    private void coachListListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_coachListListValueChanged
+        if (evt.getValueIsAdjusting()) return;
+
+        int list_index = coachListList.getSelectedIndex();
+        if (list_index == coachListList.getModel().getSize()-1) {
+            resetInfo();
+            return;
+        }
+
+        removeButton.setVisible(true);
+        newUpdateButton.setText("Update");
+
+        ResultSet info = DBHandler.query("SELECT * FROM coaches WHERE id=?", userIDs.get(list_index));
+        try {
+            if (!info.next()) throw new SQLException("No Such User");
+
+            firstNameTextField.setText(info.getString("first_name"));
+            lastNameTextField.setText(info.getString("last_name"));
+            birthDateSpinner.setValue(info.getDate("birth_date"));
+            phoneTextField.setText(info.getString("tel"));
+            emailTextField.setText(info.getString("email"));
+            salaryTextField.setText(info.getFloat("salary") + "");
+            firstYearSpinner.setValue(info.getDate("first_year"));
+        } catch (SQLException exp) {
+            System.out.println(exp);
+        }
+    }//GEN-LAST:event_coachListListValueChanged
+
+    private void resetInfo() {
+        firstNameTextField.setText("");
+        lastNameTextField.setText("");
+        phoneTextField.setText("");
+        emailTextField.setText("");
+        salaryTextField.setText("");
+        removeButton.setVisible(false);
+        newUpdateButton.setText("Add");
+    }
+    
+    private void updateCoachList() {
+        ResultSet coaches = DBHandler.query("SELECT id, first_name, last_name FROM coaches");
+
+        try {
+            DefaultListModel tempModel = new DefaultListModel();
+            while (coaches.next()) {
+                int id = coaches.getInt("id");
+                String first = coaches.getString("first_name");
+                String last = coaches.getString("last_name");
+                
+                userIDs.add(id);
+                tempModel.addElement(id + ": " + first + " " + last);
+            }
+            tempModel.addElement("Add New Coach");
+            coachListList.setModel(tempModel);
+        } catch (SQLException exp) {
+            System.out.println(exp);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -196,6 +444,8 @@ public class AdminUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel birthDateLabel;
+    private javax.swing.JSpinner birthDateSpinner;
     private javax.swing.JPanel clientManagementPanel;
     private javax.swing.JPanel coachInfoPanel;
     private javax.swing.JList<String> coachListList;
@@ -204,8 +454,26 @@ public class AdminUI extends javax.swing.JFrame {
     private javax.swing.JPanel coachManagementPanel;
     private javax.swing.JSplitPane coachManagementSplitPane;
     private javax.swing.JTabbedPane containerTabbedPane;
+    private javax.swing.JLabel emailLabel;
+    private javax.swing.JTextField emailTextField;
+    private javax.swing.JLabel firstNameLabel;
+    private javax.swing.JTextField firstNameTextField;
+    private javax.swing.JLabel firstYearLabel;
+    private javax.swing.JSpinner firstYearSpinner;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JLabel lastNameLabel;
+    private javax.swing.JTextField lastNameTextField;
+    private javax.swing.JButton newUpdateButton;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JLabel passwordLabel;
+    private javax.swing.JLabel phoneLabel;
+    private javax.swing.JTextField phoneTextField;
+    private javax.swing.JButton removeButton;
+    private javax.swing.JLabel salaryLabel;
+    private javax.swing.JTextField salaryTextField;
     // End of variables declaration//GEN-END:variables
+
+    private ArrayList<Integer> userIDs;
 }

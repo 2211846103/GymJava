@@ -27,33 +27,35 @@ public class LoginUI extends javax.swing.JFrame {
     private void initComponents() {
 
         container = new javax.swing.JPanel();
-        usernameLabel = new javax.swing.JLabel();
+        userIDLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
-        usernameTextField = new javax.swing.JTextField();
+        userIDTextField = new javax.swing.JTextField();
         passwordField = new javax.swing.JPasswordField();
         loginContainer = new javax.swing.JPanel();
         loginButton = new javax.swing.JButton();
+        errorMessage = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        setSize(new java.awt.Dimension(300, 400));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
         });
 
-        container.setBorder(javax.swing.BorderFactory.createTitledBorder("Login"));
-
-        usernameLabel.setText("ID:");
+        userIDLabel.setText("ID:");
 
         passwordLabel.setText("Password:");
 
-        usernameTextField.setText("Enter ID");
-        usernameTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+        userIDTextField.setText("Enter ID");
+        userIDTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                usernameTextFieldFocusGained(evt);
+                userIDTextFieldFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                usernameTextFieldFocusLost(evt);
+                userIDTextFieldFocusLost(evt);
             }
         });
 
@@ -75,71 +77,82 @@ public class LoginUI extends javax.swing.JFrame {
         });
         loginContainer.add(loginButton);
 
+        errorMessage.setForeground(new java.awt.Color(255, 0, 0));
+        errorMessage.setText("ID or Password Invalid");
+
+        jLabel1.setFont(new java.awt.Font("FiraCode Nerd Font", 0, 36)); // NOI18N
+        jLabel1.setText("Welcome");
+
         javax.swing.GroupLayout containerLayout = new javax.swing.GroupLayout(container);
         container.setLayout(containerLayout);
         containerLayout.setHorizontalGroup(
             containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(containerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(loginContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(containerLayout.createSequentialGroup()
-                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(usernameLabel)
-                            .addComponent(passwordLabel))
-                        .addGap(18, 18, 18)
-                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(usernameTextField)
-                            .addComponent(passwordField))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(loginContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(containerLayout.createSequentialGroup()
+                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(errorMessage)
+                            .addComponent(jLabel1)
+                            .addGroup(containerLayout.createSequentialGroup()
+                                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(passwordLabel)
+                                    .addComponent(userIDLabel))
+                                .addGap(18, 18, 18)
+                                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(userIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 116, Short.MAX_VALUE))))
         );
         containerLayout.setVerticalGroup(
             containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(containerLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(errorMessage)
+                .addGap(18, 18, 18)
                 .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(usernameLabel)
-                    .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(userIDLabel)
+                    .addComponent(userIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordLabel)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(110, 110, 110)
                 .addComponent(loginContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(container, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(container, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usernameTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameTextFieldFocusGained
-        if (usernameTextField.getText().equals("Enter Username")) {
-            usernameTextField.setText("");
+    private void userIDTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userIDTextFieldFocusGained
+        if (userIDTextField.getText().equals("Enter ID")) {
+            userIDTextField.setText("");
         }
-    }//GEN-LAST:event_usernameTextFieldFocusGained
+    }//GEN-LAST:event_userIDTextFieldFocusGained
 
-    private void usernameTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameTextFieldFocusLost
-        if (usernameTextField.getText().equals("")) {
-            usernameTextField.setText("Enter Username");
+    private void userIDTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userIDTextFieldFocusLost
+        if (userIDTextField.getText().equals("")) {
+            userIDTextField.setText("Enter ID");
         }
-    }//GEN-LAST:event_usernameTextFieldFocusLost
+    }//GEN-LAST:event_userIDTextFieldFocusLost
 
     private void passwordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFieldFocusGained
         if (passwordField.getText().equals("Enter Password")) {
@@ -154,41 +167,43 @@ public class LoginUI extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordFieldFocusLost
 
     private void loginButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMouseClicked
-        String username = usernameTextField.getText();
+        String userID = userIDTextField.getText();
         String password = passwordField.getText();
         
-        System.out.println("Username: " + username);
-        System.out.println("Password: " + password);
+        String userType = LoginHandler.checkUser(Integer.parseInt(userID), password);
+        if (userType.equals("")) {
+            errorMessage.setVisible(true);
+            return;
+        }
+        switch (userType) {
+            case "admin":
+                new AdminUI().setVisible(true);
+                break;
+            case "client":
+                new ClientUI().setVisible(true);
+                break;
+            case "coach":
+                new CoachUI().setVisible(true);
+        }
+        
+        this.dispose();
     }//GEN-LAST:event_loginButtonMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        LoginHandler.init();
+        errorMessage.setVisible(false);
+        DBHandler.init();
     }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+        /* Set the Flatlaf look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            javax.swing.UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
+        } catch( Exception ex ) {
+            System.err.println( "Failed to initialize LaF" );
         }
         //</editor-fold>
 
@@ -202,11 +217,13 @@ public class LoginUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel container;
+    private javax.swing.JLabel errorMessage;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JButton loginButton;
     private javax.swing.JPanel loginContainer;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel passwordLabel;
-    private javax.swing.JLabel usernameLabel;
-    private javax.swing.JTextField usernameTextField;
+    private javax.swing.JLabel userIDLabel;
+    private javax.swing.JTextField userIDTextField;
     // End of variables declaration//GEN-END:variables
 }
