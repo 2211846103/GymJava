@@ -4,6 +4,10 @@
  */
 package itse322;
 
+// Imports
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Zenjar
@@ -13,8 +17,12 @@ public class ClientUI extends javax.swing.JFrame {
     /**
      * Creates new form ClientUI
      */
-    public ClientUI() {
+    public ClientUI(Client user) {
         initComponents();
+        this.user = user;
+        
+        // Hide Error Message Until Necessary
+        errorMessage.setVisible(false);
     }
 
     /**
@@ -36,43 +44,53 @@ public class ClientUI extends javax.swing.JFrame {
         coachIDLabel = new javax.swing.JLabel();
         coachIDValue = new javax.swing.JLabel();
         coachFirstNameLabel = new javax.swing.JLabel();
+        coachFirstNameField = new javax.swing.JTextField();
         coachLastNameLabel = new javax.swing.JLabel();
-        coachPhoneNumberLabel = new javax.swing.JLabel();
+        coachLastNameField = new javax.swing.JTextField();
+        coachPhoneLabel = new javax.swing.JLabel();
+        coachPhoneField = new javax.swing.JTextField();
         coachEmailLabel = new javax.swing.JLabel();
-        coachFirstNameValue = new javax.swing.JLabel();
-        coachLastNameValue = new javax.swing.JLabel();
-        coachPhoneNumberValue = new javax.swing.JLabel();
-        coachEmailValue = new javax.swing.JLabel();
-        coachBioLabel = new javax.swing.JLabel();
-        coachBioScrollPane = new javax.swing.JScrollPane();
-        coachBioTextArea = new javax.swing.JTextArea();
+        coachEmailField = new javax.swing.JTextField();
+        coachFirstYearLabel = new javax.swing.JLabel();
+        coachFirstYearSpinner = new javax.swing.JSpinner();
         personalPanel = new javax.swing.JPanel();
-        firstNameLabel = new javax.swing.JLabel();
-        firstNameTextField = new javax.swing.JTextField();
-        lastNameLabel = new javax.swing.JLabel();
-        lastNameTextField = new javax.swing.JTextField();
         idLabel = new javax.swing.JLabel();
         idValueLabel = new javax.swing.JLabel();
+        firstNameLabel = new javax.swing.JLabel();
+        firstNameField = new javax.swing.JTextField();
+        lastNameLabel = new javax.swing.JLabel();
+        lastNameField = new javax.swing.JTextField();
         birthDateLabel = new javax.swing.JLabel();
-        birthDateTextField = new javax.swing.JTextField();
+        birthDateSpinner = new javax.swing.JSpinner();
         genderLabel = new javax.swing.JLabel();
-        genderTextField = new javax.swing.JTextField();
-        subTypeLabel = new javax.swing.JLabel();
-        subTypeComboBox = new javax.swing.JComboBox<>();
+        genderComboBox = new javax.swing.JComboBox<>();
+        tierLabel = new javax.swing.JLabel();
+        tierComboBox = new javax.swing.JComboBox<>();
         expiryDateLabel = new javax.swing.JLabel();
-        expiryDateTextField = new javax.swing.JTextField();
+        expiryDateSpinner = new javax.swing.JSpinner();
         heightLabel = new javax.swing.JLabel();
-        heightTextField = new javax.swing.JTextField();
-        phoneNumberLabel = new javax.swing.JLabel();
-        phoneNumberTextField = new javax.swing.JTextField();
-        cmLabel = new javax.swing.JLabel();
         weightLabel = new javax.swing.JLabel();
-        weightTextField = new javax.swing.JTextField();
+        phoneLabel = new javax.swing.JLabel();
+        heightField = new javax.swing.JTextField();
+        weightField = new javax.swing.JTextField();
+        phoneField = new javax.swing.JTextField();
+        cmLabel = new javax.swing.JLabel();
         kgLabel = new javax.swing.JLabel();
+        updateButton = new javax.swing.JButton();
+        errorMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         weekSelectorLabel.setText("Choose Day of the Week:");
 
@@ -85,12 +103,7 @@ public class ClientUI extends javax.swing.JFrame {
 
         trainingSchedule.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Pushups",  new Integer(3),  new Integer(10)},
-                {"Pullups",  new Integer(3),  new Integer(12)},
-                {"Dips",  new Integer(2),  new Integer(12)},
-                {"Body Rows",  new Integer(3),  new Integer(10)},
-                {"Squats",  new Integer(3),  new Integer(8)},
-                {"Bicep Curls",  new Integer(2),  new Integer(10)}
+
             },
             new String [] {
                 "Exercise", "Sets", "Reps"
@@ -122,13 +135,13 @@ public class ClientUI extends javax.swing.JFrame {
             trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(trainingPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(weekSelectorLabel)
-                .addGap(18, 18, 18)
-                .addComponent(weekSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(trainingPanelLayout.createSequentialGroup()
-                .addComponent(trainingScheduleContainer)
-                .addGap(226, 226, 226))
+                .addGroup(trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(trainingPanelLayout.createSequentialGroup()
+                        .addComponent(weekSelectorLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(weekSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(trainingScheduleContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(251, Short.MAX_VALUE))
         );
         trainingPanelLayout.setVerticalGroup(
             trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,7 +152,7 @@ public class ClientUI extends javax.swing.JFrame {
                     .addComponent(weekSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(trainingScheduleContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(318, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
 
         panelContainer.addTab("Training Schedule", trainingPanel);
@@ -152,27 +165,25 @@ public class ClientUI extends javax.swing.JFrame {
 
         coachFirstNameLabel.setText("First Name:");
 
+        coachFirstNameField.setEnabled(false);
+
         coachLastNameLabel.setText("Last Name:");
 
-        coachPhoneNumberLabel.setText("Phone Number:");
+        coachLastNameField.setEnabled(false);
 
-        coachEmailLabel.setText("E-mail:");
+        coachPhoneLabel.setText("Phone Number:");
 
-        coachFirstNameValue.setText("Ali");
+        coachPhoneField.setEnabled(false);
 
-        coachLastNameValue.setText("Ali");
+        coachEmailLabel.setText("Email:");
 
-        coachPhoneNumberValue.setText("0919273723");
+        coachEmailField.setEnabled(false);
 
-        coachEmailValue.setText("username@email.com");
+        coachFirstYearLabel.setText("First Year of Coaching:");
 
-        coachBioLabel.setText("Biography:");
-
-        coachBioTextArea.setEditable(false);
-        coachBioTextArea.setColumns(20);
-        coachBioTextArea.setRows(5);
-        coachBioTextArea.setText("Lorem Ipsum akljsdoijndopk\n");
-        coachBioScrollPane.setViewportView(coachBioTextArea);
+        coachFirstYearSpinner.setModel(new javax.swing.SpinnerDateModel());
+        coachFirstYearSpinner.setEditor(new javax.swing.JSpinner.DateEditor(coachFirstYearSpinner, "yyyy"));
+        coachFirstYearSpinner.setEnabled(false);
 
         javax.swing.GroupLayout coachPanelLayout = new javax.swing.GroupLayout(coachPanel);
         coachPanel.setLayout(coachPanelLayout);
@@ -180,24 +191,26 @@ public class ClientUI extends javax.swing.JFrame {
             coachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(coachPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(coachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(coachEmailLabel)
-                    .addComponent(coachPhoneNumberLabel)
-                    .addComponent(coachLastNameLabel)
-                    .addComponent(coachFirstNameLabel)
-                    .addComponent(coachIDLabel))
+                .addGroup(coachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(coachPhoneField)
+                    .addComponent(coachPhoneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                    .addComponent(coachFirstNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, coachPanelLayout.createSequentialGroup()
+                        .addComponent(coachIDLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(coachIDValue))
+                    .addComponent(coachFirstNameField, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(18, 18, 18)
                 .addGroup(coachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(coachIDValue)
-                    .addComponent(coachEmailValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(coachFirstNameValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(coachLastNameValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(coachPhoneNumberValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(coachLastNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                    .addComponent(coachLastNameField)
+                    .addComponent(coachEmailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(coachEmailField))
                 .addGap(18, 18, 18)
-                .addComponent(coachBioLabel)
-                .addGap(18, 18, 18)
-                .addComponent(coachBioScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(447, Short.MAX_VALUE))
+                .addGroup(coachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(coachFirstYearLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(coachFirstYearSpinner))
+                .addContainerGap(208, Short.MAX_VALUE))
         );
         coachPanelLayout.setVerticalGroup(
             coachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,52 +220,27 @@ public class ClientUI extends javax.swing.JFrame {
                     .addComponent(coachIDLabel)
                     .addComponent(coachIDValue))
                 .addGap(18, 18, 18)
-                .addGroup(coachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(coachPanelLayout.createSequentialGroup()
-                        .addGroup(coachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(coachFirstNameLabel)
-                            .addComponent(coachFirstNameValue)
-                            .addComponent(coachBioLabel))
-                        .addGap(18, 18, 18)
-                        .addGroup(coachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(coachLastNameLabel)
-                            .addComponent(coachLastNameValue))
-                        .addGap(18, 18, 18)
-                        .addGroup(coachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(coachPhoneNumberLabel)
-                            .addComponent(coachPhoneNumberValue)))
-                    .addComponent(coachBioScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(coachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(coachFirstNameLabel)
+                    .addComponent(coachLastNameLabel)
+                    .addComponent(coachFirstYearLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(coachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(coachFirstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coachLastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coachFirstYearSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(coachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(coachEmailLabel)
-                    .addComponent(coachEmailValue))
-                .addContainerGap(343, Short.MAX_VALUE))
+                    .addComponent(coachPhoneLabel)
+                    .addComponent(coachEmailLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(coachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(coachPhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coachEmailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(120, Short.MAX_VALUE))
         );
 
         panelContainer.addTab("Coach Info", coachPanel);
-
-        firstNameLabel.setText("First Name:");
-
-        firstNameTextField.setForeground(new java.awt.Color(102, 102, 102));
-        firstNameTextField.setText("Ali");
-        firstNameTextField.setEnabled(false);
-        firstNameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                firstNameTextFieldActionPerformed(evt);
-            }
-        });
-
-        lastNameLabel.setText("Last Name:");
-
-        lastNameTextField.setEditable(false);
-        lastNameTextField.setForeground(new java.awt.Color(102, 102, 102));
-        lastNameTextField.setText("Ali");
-        lastNameTextField.setEnabled(false);
-        lastNameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lastNameTextFieldActionPerformed(evt);
-            }
-        });
 
         idLabel.setFont(new java.awt.Font("sansserif", 1, 13)); // NOI18N
         idLabel.setText("Member ID:");
@@ -260,50 +248,55 @@ public class ClientUI extends javax.swing.JFrame {
         idValueLabel.setFont(new java.awt.Font("sansserif", 1, 13)); // NOI18N
         idValueLabel.setText("203838");
 
-        birthDateLabel.setText("Brith Date:");
+        firstNameLabel.setText("First Name:");
 
-        birthDateTextField.setEditable(false);
-        birthDateTextField.setForeground(new java.awt.Color(102, 102, 102));
-        birthDateTextField.setText("2000/1/1");
-        birthDateTextField.setEnabled(false);
+        firstNameField.setEnabled(false);
+
+        lastNameLabel.setText("Last Name:");
+
+        lastNameField.setEnabled(false);
+
+        birthDateLabel.setText("Birth Date:");
+
+        birthDateSpinner.setModel(new javax.swing.SpinnerDateModel());
+        birthDateSpinner.setEditor(new javax.swing.JSpinner.DateEditor(birthDateSpinner, "dd/MM/yyyy"));
+        birthDateSpinner.setEnabled(false);
 
         genderLabel.setText("Gender:");
 
-        genderTextField.setEditable(false);
-        genderTextField.setForeground(new java.awt.Color(102, 102, 102));
-        genderTextField.setText("male");
-        genderTextField.setEnabled(false);
+        genderComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
+        genderComboBox.setEnabled(false);
 
-        subTypeLabel.setText("Subscription Type:");
+        tierLabel.setText("Subscription Tier:");
 
-        subTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Basic" }));
-        subTypeComboBox.setEnabled(false);
+        tierComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Basic", "Premium" }));
+        tierComboBox.setEnabled(false);
 
         expiryDateLabel.setText("Expiry Date:");
 
-        expiryDateTextField.setText("2000/1/1");
-        expiryDateTextField.setEnabled(false);
+        expiryDateSpinner.setModel(new javax.swing.SpinnerDateModel());
+        expiryDateSpinner.setEditor(new javax.swing.JSpinner.DateEditor(expiryDateSpinner, "dd/MM/yyyy"));
+        expiryDateSpinner.setEnabled(false);
 
         heightLabel.setText("Height:");
 
-        heightTextField.setText("185");
-        heightTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                heightTextFieldActionPerformed(evt);
-            }
-        });
+        weightLabel.setText("Weight:");
 
-        phoneNumberLabel.setText("Phone Number:");
-
-        phoneNumberTextField.setText("0918273734");
+        phoneLabel.setText("Phone Number:");
 
         cmLabel.setText("cm");
 
-        weightLabel.setText("Weight:");
-
-        weightTextField.setText("82");
-
         kgLabel.setText("kg");
+
+        updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+
+        errorMessage.setForeground(new java.awt.Color(255, 0, 0));
+        errorMessage.setText("jLabel1");
 
         javax.swing.GroupLayout personalPanelLayout = new javax.swing.GroupLayout(personalPanel);
         personalPanel.setLayout(personalPanelLayout);
@@ -311,51 +304,47 @@ public class ClientUI extends javax.swing.JFrame {
             personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(personalPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(idLabel)
-                    .addComponent(firstNameLabel)
-                    .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lastNameLabel)
-                        .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(genderLabel)
-                            .addComponent(birthDateLabel))))
+                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(tierComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tierLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(birthDateSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                    .addComponent(birthDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(firstNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, personalPanelLayout.createSequentialGroup()
+                        .addComponent(idLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(idValueLabel))
+                    .addComponent(firstNameField, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(18, 18, 18)
                 .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(personalPanelLayout.createSequentialGroup()
-                        .addComponent(idValueLabel)
-                        .addContainerGap(989, Short.MAX_VALUE))
-                    .addGroup(personalPanelLayout.createSequentialGroup()
-                        .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(personalPanelLayout.createSequentialGroup()
-                                    .addComponent(genderTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(phoneNumberLabel))
-                                .addComponent(expiryDateLabel)
-                                .addGroup(personalPanelLayout.createSequentialGroup()
-                                    .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(subTypeLabel))
-                                .addComponent(heightLabel))
-                            .addComponent(birthDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(genderLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(expiryDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(genderComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(expiryDateSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                            .addComponent(lastNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lastNameField))
                         .addGap(18, 18, 18)
-                        .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(personalPanelLayout.createSequentialGroup()
-                                .addComponent(subTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(weightLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(weightTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(kgLabel))
-                            .addComponent(phoneNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(expiryDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(personalPanelLayout.createSequentialGroup()
-                                .addComponent(heightTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(weightField, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                                    .addComponent(heightField))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmLabel)))
-                        .addGap(0, 501, Short.MAX_VALUE))))
+                                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(kgLabel)
+                                    .addComponent(cmLabel)))
+                            .addComponent(phoneField)
+                            .addComponent(weightLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(phoneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(heightLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(errorMessage))
+                .addGap(0, 190, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, personalPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(updateButton)
+                .addContainerGap())
         );
         personalPanelLayout.setVerticalGroup(
             personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,155 +352,225 @@ public class ClientUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(idLabel)
-                    .addComponent(idValueLabel))
+                    .addComponent(idValueLabel)
+                    .addComponent(errorMessage))
                 .addGap(18, 18, 18)
                 .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(firstNameLabel)
-                    .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(subTypeLabel)
-                    .addComponent(subTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(weightLabel)
-                    .addComponent(weightTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(kgLabel))
-                .addGap(18, 18, 18)
-                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lastNameLabel)
-                    .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(expiryDateLabel)
-                    .addComponent(expiryDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(heightLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(heightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmLabel))
                 .addGap(18, 18, 18)
                 .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(birthDateLabel)
-                    .addComponent(birthDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(heightLabel)
-                    .addComponent(heightTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmLabel))
-                .addGap(24, 24, 24)
-                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(genderLabel)
-                    .addComponent(genderTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(phoneNumberLabel)
-                    .addComponent(phoneNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(313, Short.MAX_VALUE))
+                    .addComponent(weightLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(birthDateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(genderComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(weightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(kgLabel))
+                .addGap(18, 18, 18)
+                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tierLabel)
+                    .addComponent(expiryDateLabel)
+                    .addComponent(phoneLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tierComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(expiryDateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(phoneField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addComponent(updateButton)
+                .addContainerGap())
         );
 
         panelContainer.addTab("Personal Info", personalPanel);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panelContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panelContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        getContentPane().add(panelContainer);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void weekSelectorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_weekSelectorItemStateChanged
+        // Skip If this is a Unselection Event
         if (evt.getStateChange() == java.awt.event.ItemEvent.DESELECTED) return;
         
-        String weekDay = weekSelector.getSelectedItem().toString();
-        System.out.println("Selected: " + weekDay);
+        // Get Selected Schedule and Update Table
+        Schedule s = (Schedule) weekSelector.getSelectedItem();
+        setSchedule(s);
     }//GEN-LAST:event_weekSelectorItemStateChanged
 
-    private void heightTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_heightTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_heightTextFieldActionPerformed
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // Connect to Database if Not Connected
+        if (!DBHandler.isConnected()) DBHandler.init();
+        
+        // Update Info in All Interfaces
+        updateCoachInfo();
+        updateClientInfo();
+        updateSchedules();
+    }//GEN-LAST:event_formWindowOpened
 
-    private void lastNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastNameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameTextFieldActionPerformed
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // Close Connection to Database
+        DBHandler.close();
+    }//GEN-LAST:event_formWindowClosing
 
-    private void firstNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_firstNameTextFieldActionPerformed
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        // Validate Info in Fields
+        if (!validateInfo()) return;
+        
+        // Get Info
+        this.user.setHeight(Float.parseFloat(heightField.getText()));
+        this.user.setWeight(Float.parseFloat(weightField.getText()));
+        this.user.setPhoneNumber(phoneField.getText());
+        
+        // Remove Error Messages if There is
+        // And Update User Info in Database and Interface
+        errorMessage.setVisible(false);
+        updateClientInfo();
+        ClientDA.updateClient(this.user);
+    }//GEN-LAST:event_updateButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClientUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClientUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClientUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClientUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ClientUI().setVisible(true);
-            }
-        });
+    private boolean validateInfo() {
+        // Sensitive Info
+        String phone = phoneField.getText();
+        String height = heightField.getText();
+        String weight = weightField.getText();
+        
+        // Validate Each Field
+        if (!Validator.isPhone(phone))
+            return CommonHelper.sendError(errorMessage, "Invalid Phone Number");
+        if (!Validator.isDecimal(height))
+            return CommonHelper.sendError(errorMessage, "Invalid Height");
+        if (!Validator.isDecimal(weight))
+            return CommonHelper.sendError(errorMessage, "Invalid Weight");
+        
+        // Return True if All Fields are Valid
+        return true;
     }
+    private void updateClientInfo() {
+        // Set Info into Appropriate Fields
+        idValueLabel.setText(String.valueOf(this.user.getId()));
+        firstNameField.setText(this.user.getFirstName());
+        lastNameField.setText(this.user.getLastName());
+        birthDateSpinner.setValue(this.user.getBirthDate());
+        genderComboBox.setSelectedIndex(
+                CommonHelper.parseGender(this.user.getGender())
+        );
+        tierComboBox.setSelectedIndex(
+                CommonHelper.parseTier(this.user.getTier())
+        );
+        expiryDateSpinner.setValue(this.user.getBirthDate());
+        heightField.setText(String.valueOf(this.user.getHeight()));
+        weightField.setText(String.valueOf(this.user.getWeight()));
+        phoneField.setText(this.user.getPhoneNumber());
+    }
+    private void updateCoachInfo() {
+        // Get Client Coach
+        Coach coach = CoachDA.getCoachById(this.user.getCoachId());
+        
+        // Set Info into Appropriate Fields
+        coachIDValue.setText(String.valueOf(coach.getId()));
+        coachFirstNameField.setText(coach.getFirstName());
+        coachLastNameField.setText(coach.getLastName());
+        coachPhoneField.setText(coach.getPhoneNumber());
+        coachEmailField.setText(coach.getEmail());
+        coachFirstYearSpinner.setValue(coach.getFirstYearDate());
+    }
+    private void updateSchedules() {
+        // Get All Schedules of Client and Set ComboBox
+        ArrayList<Schedule> schedules = ScheduleDA.getSchedulesByClient(this.user);
+        weekSelector.setModel(CommonHelper.createComboBox(schedules));
+    }
+    private void setSchedule(Schedule s) {
+        // Get All Exercises of Schedule and Sort them
+        ArrayList<Exercise> exercises = ExerciseDA.getExercisesBySchedule(s);
+        exercises.sort(null);
+        
+        // Setup Table Columns and Model
+        DefaultTableModel model = new DefaultTableModel() {
+            Class[] types = {
+                String.class, Integer.class, Integer.class
+            };
 
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        };
+        model.addColumn("Exercise");
+        model.addColumn("Reps");
+        model.addColumn("Sets");
+        
+        // Set Each Exercise's Data Into the Table
+        for (Exercise e : exercises) {
+            Object[] data = new Object[3];
+            
+            data[0] = e.getName();
+            data[1] = e.getReps();
+            data[2] = e.getSets();
+            
+            model.addRow(data);
+        }
+        
+        // Update Tthe Table with the New Data
+        trainingSchedule.setModel(model);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel birthDateLabel;
-    private javax.swing.JTextField birthDateTextField;
+    private javax.swing.JSpinner birthDateSpinner;
     private javax.swing.JLabel cmLabel;
-    private javax.swing.JLabel coachBioLabel;
-    private javax.swing.JScrollPane coachBioScrollPane;
-    private javax.swing.JTextArea coachBioTextArea;
+    private javax.swing.JTextField coachEmailField;
     private javax.swing.JLabel coachEmailLabel;
-    private javax.swing.JLabel coachEmailValue;
+    private javax.swing.JTextField coachFirstNameField;
     private javax.swing.JLabel coachFirstNameLabel;
-    private javax.swing.JLabel coachFirstNameValue;
+    private javax.swing.JLabel coachFirstYearLabel;
+    private javax.swing.JSpinner coachFirstYearSpinner;
     private javax.swing.JLabel coachIDLabel;
     private javax.swing.JLabel coachIDValue;
+    private javax.swing.JTextField coachLastNameField;
     private javax.swing.JLabel coachLastNameLabel;
-    private javax.swing.JLabel coachLastNameValue;
     private javax.swing.JPanel coachPanel;
-    private javax.swing.JLabel coachPhoneNumberLabel;
-    private javax.swing.JLabel coachPhoneNumberValue;
+    private javax.swing.JTextField coachPhoneField;
+    private javax.swing.JLabel coachPhoneLabel;
+    private javax.swing.JLabel errorMessage;
     private javax.swing.JLabel expiryDateLabel;
-    private javax.swing.JTextField expiryDateTextField;
+    private javax.swing.JSpinner expiryDateSpinner;
+    private javax.swing.JTextField firstNameField;
     private javax.swing.JLabel firstNameLabel;
-    private javax.swing.JTextField firstNameTextField;
+    private javax.swing.JComboBox<String> genderComboBox;
     private javax.swing.JLabel genderLabel;
-    private javax.swing.JTextField genderTextField;
+    private javax.swing.JTextField heightField;
     private javax.swing.JLabel heightLabel;
-    private javax.swing.JTextField heightTextField;
     private javax.swing.JLabel idLabel;
     private javax.swing.JLabel idValueLabel;
     private javax.swing.JLabel kgLabel;
+    private javax.swing.JTextField lastNameField;
     private javax.swing.JLabel lastNameLabel;
-    private javax.swing.JTextField lastNameTextField;
     private javax.swing.JTabbedPane panelContainer;
     private javax.swing.JPanel personalPanel;
-    private javax.swing.JLabel phoneNumberLabel;
-    private javax.swing.JTextField phoneNumberTextField;
-    private javax.swing.JComboBox<String> subTypeComboBox;
-    private javax.swing.JLabel subTypeLabel;
+    private javax.swing.JTextField phoneField;
+    private javax.swing.JLabel phoneLabel;
+    private javax.swing.JComboBox<String> tierComboBox;
+    private javax.swing.JLabel tierLabel;
     private javax.swing.JPanel trainingPanel;
     private javax.swing.JTable trainingSchedule;
     private javax.swing.JScrollPane trainingScheduleContainer;
+    private javax.swing.JButton updateButton;
     private javax.swing.JComboBox<String> weekSelector;
     private javax.swing.JLabel weekSelectorLabel;
+    private javax.swing.JTextField weightField;
     private javax.swing.JLabel weightLabel;
-    private javax.swing.JTextField weightTextField;
     // End of variables declaration//GEN-END:variables
+    
+    private Client user;
 }

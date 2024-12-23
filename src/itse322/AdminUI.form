@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.6" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="resizable" type="boolean" value="false"/>
@@ -59,7 +59,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="coachManagementSplitPane" max="32767" attributes="0"/>
+                      <Component id="coachManagementSplitPane" min="-2" pref="715" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -68,7 +68,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="coachManagementSplitPane" max="32767" attributes="0"/>
+                      <Component id="coachManagementSplitPane" min="-2" pref="389" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -77,56 +77,12 @@
           <SubComponents>
             <Container class="javax.swing.JSplitPane" name="coachManagementSplitPane">
               <Properties>
-                <Property name="dividerLocation" type="int" value="150"/>
+                <Property name="dividerLocation" type="int" value="200"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout"/>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="coachListPanel">
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout$JSplitPaneConstraintsDescription">
-                      <JSplitPaneConstraints position="left"/>
-                    </Constraint>
-                  </Constraints>
-
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="coachListScrollPane" alignment="0" pref="150" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="coachListScrollPane" alignment="0" pref="418" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
-                  <SubComponents>
-                    <Container class="javax.swing.JScrollPane" name="coachListScrollPane">
-                      <AuxValues>
-                        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-                      </AuxValues>
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                      <SubComponents>
-                        <Component class="javax.swing.JList" name="coachListList">
-                          <Properties>
-                            <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-                              <StringArray count="0"/>
-                            </Property>
-                            <Property name="selectionMode" type="int" value="0"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="coachListListValueChanged"/>
-                          </Events>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                          </AuxValues>
-                        </Component>
-                      </SubComponents>
-                    </Container>
-                  </SubComponents>
-                </Container>
                 <Container class="javax.swing.JPanel" name="coachInfoPanel">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -144,44 +100,52 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="firstYearSpinner" max="32767" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                              <Component id="firstNameTextField" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="firstNameLabel" alignment="0" pref="153" max="32767" attributes="0"/>
-                                              <Component id="birthDateLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="emailLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="emailTextField" alignment="0" max="32767" attributes="0"/>
-                                          </Group>
-                                          <Component id="firstYearLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="removeButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Component id="birthDateSpinner" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      <Component id="newUpdateButton" min="-2" max="-2" attributes="0"/>
-                                  </Group>
                                   <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="salaryLabel" min="-2" max="-2" attributes="0"/>
-                                          <Component id="phoneLabel" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lastNameLabel" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lastNameTextField" max="32767" attributes="0"/>
-                                          <Component id="phoneTextField" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="salaryTextField" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="passwordLabel" min="-2" max="-2" attributes="0"/>
-                                          <Component id="passwordField" alignment="0" pref="140" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                                  <Component id="coachYearSpinner" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="coachFirstField" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="coachFirstLabel" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="coachBirthLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="coachBirthSpinner" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="coachEmailField" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="coachEmailLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="coachYearLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Group type="102" attributes="0">
+                                                      <Group type="103" groupAlignment="0" attributes="0">
+                                                          <Component id="coachLastField" min="-2" pref="140" max="-2" attributes="0"/>
+                                                          <Component id="coachLastLabel" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="coachPhoneField" min="-2" pref="140" max="-2" attributes="0"/>
+                                                          <Component id="coachPhoneLabel" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="coachSalaryField" min="-2" pref="140" max="-2" attributes="0"/>
+                                                          <Component id="coachSalaryLabel" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="coachPasswordField" min="-2" pref="140" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <EmptySpace pref="377" max="32767" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" attributes="0">
+                                                      <Component id="coachPasswordLabel" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="coachRemoveButton" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                      <EmptySpace min="0" pref="47" max="32767" attributes="0"/>
+                                      <Component id="coachUpdateButton" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="coachErrorMessage" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -193,48 +157,50 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="firstNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lastNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachFirstLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachLastLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="firstNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lastNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachFirstField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachLastField" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="birthDateLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="phoneLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachBirthLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachPhoneLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="phoneTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="birthDateSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachPhoneField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachBirthSpinner" alignment="3" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="emailLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="salaryLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachEmailLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachSalaryLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="emailTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="salaryTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachEmailField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachSalaryField" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="firstYearLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="passwordLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachYearLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachPasswordLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="firstYearSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="passwordField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachYearSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachPasswordField" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="101" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="coachErrorMessage" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="35" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="newUpdateButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="removeButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachUpdateButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="coachRemoveButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -242,75 +208,26 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="firstNameLabel">
+                    <Component class="javax.swing.JLabel" name="coachFirstLabel">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="First Name:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="firstNameTextField">
+                    <Component class="javax.swing.JTextField" name="coachFirstField">
                     </Component>
-                    <Component class="javax.swing.JLabel" name="lastNameLabel">
+                    <Component class="javax.swing.JLabel" name="coachLastLabel">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Last Name:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="lastNameTextField">
+                    <Component class="javax.swing.JTextField" name="coachLastField">
                     </Component>
-                    <Component class="javax.swing.JLabel" name="birthDateLabel">
+                    <Component class="javax.swing.JLabel" name="coachBirthLabel">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Birth Date:"/>
+                        <Property name="text" type="java.lang.String" value="Birth Date (dd/MM/yyyy):"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="phoneLabel">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Phone Number:"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="phoneTextField">
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="emailLabel">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Email:"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="emailTextField">
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="salaryLabel">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Salary:"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="salaryTextField">
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="firstYearLabel">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="First Coachin Year:"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="newUpdateButton">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Add"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newUpdateButtonActionPerformed"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="removeButton">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Remove"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JSpinner" name="firstYearSpinner">
-                      <Properties>
-                        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                          <SpinnerModel initial="now" stepSize="1" type="date"/>
-                        </Property>
-                        <Property name="editor" type="javax.swing.JComponent" editor="org.netbeans.modules.form.editors.SpinnerEditorEditor">
-                          <SpinnerEditor format="yyyy" type="1"/>
-                        </Property>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JSpinner" name="birthDateSpinner">
+                    <Component class="javax.swing.JSpinner" name="coachBirthSpinner">
                       <Properties>
                         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                           <SpinnerModel initial="946713480000" stepSize="5" type="date"/>
@@ -320,11 +237,108 @@
                         </Property>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JPasswordField" name="passwordField">
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="passwordLabel">
+                    <Component class="javax.swing.JLabel" name="coachPhoneLabel">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Pass:"/>
+                        <Property name="text" type="java.lang.String" value="Phone Number:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="coachPhoneField">
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="coachEmailLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Email:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="coachEmailField">
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="coachSalaryLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Salary:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="coachSalaryField">
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="coachYearLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="First Coaching Year:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JSpinner" name="coachYearSpinner">
+                      <Properties>
+                        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                          <SpinnerModel initial="now" stepSize="1" type="date"/>
+                        </Property>
+                        <Property name="editor" type="javax.swing.JComponent" editor="org.netbeans.modules.form.editors.SpinnerEditorEditor">
+                          <SpinnerEditor format="yyyy" type="1"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="coachPasswordLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Password:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JPasswordField" name="coachPasswordField">
+                    </Component>
+                    <Component class="javax.swing.JButton" name="coachUpdateButton">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Add"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="coachUpdateButtonActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="coachRemoveButton">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Remove"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="coachRemoveButtonActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="coachErrorMessage">
+                      <Properties>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="0" green="0" red="ff" type="rgb"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="jLabel1"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Container class="javax.swing.JScrollPane" name="coachScrollPane">
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout$JSplitPaneConstraintsDescription">
+                      <JSplitPaneConstraints position="left"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTable" name="coachTable">
+                      <Properties>
+                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                          <Table columnCount="2" rowCount="1">
+                            <Column editable="false" title="ID" type="java.lang.Integer"/>
+                            <Column editable="false" title="Full Name" type="java.lang.String"/>
+                          </Table>
+                        </Property>
+                        <Property name="autoResizeMode" type="int" value="3"/>
+                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                          <Color id="Default Cursor"/>
+                        </Property>
+                        <Property name="selectionMode" type="int" value="0"/>
+                        <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+                          <JTableSelectionModel selectionMode="0"/>
+                        </Property>
+                        <Property name="showGrid" type="boolean" value="false"/>
+                        <Property name="showHorizontalLines" type="boolean" value="true"/>
+                        <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                          <TableHeader reorderingAllowed="false" resizingAllowed="false"/>
+                        </Property>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -347,7 +361,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jSplitPane1" max="32767" attributes="0"/>
+                      <Component id="clientManagementSplitPane" pref="715" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -356,41 +370,29 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jSplitPane1" max="32767" attributes="0"/>
+                      <Component id="clientManagementSplitPane" min="-2" pref="389" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JSplitPane" name="jSplitPane1">
+            <Container class="javax.swing.JSplitPane" name="clientManagementSplitPane">
               <Properties>
-                <Property name="dividerLocation" type="int" value="150"/>
+                <Property name="dividerLocation" type="int" value="200"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout"/>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="jPanel1">
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout$JSplitPaneConstraintsDescription">
-                      <JSplitPaneConstraints position="left"/>
-                    </Constraint>
-                  </Constraints>
-
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="150" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="418" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
-                </Container>
-                <Container class="javax.swing.JPanel" name="jPanel2">
+                <Container class="javax.swing.JPanel" name="clientInfoPanel">
+                  <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                        <TitledBorder title="Client Info"/>
+                      </Border>
+                    </Property>
+                  </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout$JSplitPaneConstraintsDescription">
                       <JSplitPaneConstraints position="right"/>
@@ -400,15 +402,348 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="380" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="clientRemoveButton" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="clientRenewButton" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="clientUpdateButton" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="clientPasswordField" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="clientPasswordLabel" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="clientTierComboBox" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="clientTierLabel" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="clientBirthSpinner" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="clientBirthLabel" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="clientFirstLabel" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="clientFirstField" alignment="0" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="clientLastLabel" max="32767" attributes="0"/>
+                                          <Component id="clientLastField" max="32767" attributes="0"/>
+                                          <Component id="clientGenderLabel" max="32767" attributes="0"/>
+                                          <Component id="clientGenderComboBox" max="32767" attributes="0"/>
+                                          <Component id="clientExpiryLabel" max="32767" attributes="0"/>
+                                          <Component id="clientExpirySpinner" pref="153" max="32767" attributes="0"/>
+                                          <Component id="clientCoachLabel" max="32767" attributes="0"/>
+                                          <Component id="clientCoachComboBox" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="clientPhoneLabel" pref="142" max="32767" attributes="0"/>
+                                          <Component id="clientPhoneField" max="32767" attributes="0"/>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="clientWeightField" max="32767" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="kgLabel" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="clientWeightLabel" alignment="1" max="32767" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="clientHeightField" max="32767" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="cmLabel" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="clientHeightLabel" alignment="0" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="clientErrorMessage" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="418" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="clientFirstLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="clientLastLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="clientPhoneLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="clientFirstField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="clientLastField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="clientPhoneField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="clientBirthLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="clientGenderLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="clientBirthSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="clientGenderComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="clientWeightLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="clientWeightField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="kgLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="clientTierLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="clientExpiryLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="clientTierComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="clientExpirySpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="clientHeightLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="clientHeightField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cmLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="clientPasswordLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="clientCoachLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="clientPasswordField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="clientCoachComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="clientErrorMessage" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="41" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="clientUpdateButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="clientRemoveButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="clientRenewButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JLabel" name="clientFirstLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="First Name:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="clientFirstField">
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="clientLastLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Last Name:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="clientLastField">
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="clientBirthLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Birth Date (dd/MM/yyyy):"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JSpinner" name="clientBirthSpinner">
+                      <Properties>
+                        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                          <SpinnerModel initial="now" stepSize="5" type="date"/>
+                        </Property>
+                        <Property name="editor" type="javax.swing.JComponent" editor="org.netbeans.modules.form.editors.SpinnerEditorEditor">
+                          <SpinnerEditor format="dd/MM/yyyy" type="1"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="clientGenderLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Gender:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="clientGenderComboBox">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                          <StringArray count="2">
+                            <StringItem index="0" value="Male"/>
+                            <StringItem index="1" value="Female"/>
+                          </StringArray>
+                        </Property>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="clientTierLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Subscription Tier:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="clientTierComboBox">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                          <StringArray count="2">
+                            <StringItem index="0" value="Basic"/>
+                            <StringItem index="1" value="Premium"/>
+                          </StringArray>
+                        </Property>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="clientExpiryLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Expiry Date:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JSpinner" name="clientExpirySpinner">
+                      <Properties>
+                        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                          <SpinnerModel initial="now" stepSize="5" type="date"/>
+                        </Property>
+                        <Property name="editor" type="javax.swing.JComponent" editor="org.netbeans.modules.form.editors.SpinnerEditorEditor">
+                          <SpinnerEditor format="dd/MM/yyyy" type="1"/>
+                        </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="clientHeightLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Height:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="clientHeightField">
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="cmLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="cm"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="clientWeightLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Weight:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="clientWeightField">
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="kgLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="kg"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="clientPhoneLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Phone Number:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="clientPhoneField">
+                    </Component>
+                    <Component class="javax.swing.JButton" name="clientUpdateButton">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Add"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clientUpdateButtonActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="clientRemoveButton">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Remove"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clientRemoveButtonActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="clientRenewButton">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Renew"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clientRenewButtonActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="clientPasswordLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Password:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JPasswordField" name="clientPasswordField">
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="clientCoachLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Coach:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="clientCoachComboBox">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                          <StringArray count="0"/>
+                        </Property>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="clientErrorMessage">
+                      <Properties>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="0" green="0" red="ff" type="rgb"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="jLabel1"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Container class="javax.swing.JScrollPane" name="clientScrollPane">
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout$JSplitPaneConstraintsDescription">
+                      <JSplitPaneConstraints position="left"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTable" name="clientTable">
+                      <Properties>
+                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                          <Table columnCount="2" rowCount="1">
+                            <Column editable="false" title="ID" type="java.lang.Integer"/>
+                            <Column editable="false" title="Full Name" type="java.lang.String"/>
+                          </Table>
+                        </Property>
+                        <Property name="autoResizeMode" type="int" value="3"/>
+                        <Property name="selectionMode" type="int" value="0"/>
+                        <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+                          <JTableSelectionModel selectionMode="0"/>
+                        </Property>
+                        <Property name="showGrid" type="boolean" value="false"/>
+                        <Property name="showHorizontalLines" type="boolean" value="true"/>
+                        <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                          <TableHeader reorderingAllowed="false" resizingAllowed="false"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
                 </Container>
               </SubComponents>
             </Container>

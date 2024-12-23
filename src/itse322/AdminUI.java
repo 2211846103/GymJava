@@ -4,8 +4,10 @@
  */
 package itse322;
 
+// Imports
+import java.awt.*;
 import javax.swing.*;
-import java.sql.*;
+import javax.swing.event.*;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +21,36 @@ public class AdminUI extends javax.swing.JFrame {
      */
     public AdminUI() {
         initComponents();
-        userIDs = new ArrayList<>();
+        
+        // Hide Error Messages
+        clientErrorMessage.setVisible(false);
+        coachErrorMessage.setVisible(false);
+        
+        // Acquire all users in the database
+        clients = ClientDA.getAllClients();
+        coaches = CoachDA.getAllCoachs();
+        
+        // Intiate the indices as the last element right after
+        // the last user in each list (represents Adding Mode)
+        coachCurrentIndex = coaches.size();
+        clientCurrentIndex = clients.size();
+        
+        // Declare Table Listeners
+        coachTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent evt) {
+                coachTableValueChanged(evt);
+            }
+        });
+        clientTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent evt) {
+                clientTableValueChanged(evt);
+            }
+        });
+        
+        // Remove Buttons for Adding Mode
+        coachRemoveButton.setVisible(false);
+        clientRemoveButton.setVisible(false);
+        clientRenewButton.setVisible(false);
     }
 
     /**
@@ -34,32 +65,61 @@ public class AdminUI extends javax.swing.JFrame {
         containerTabbedPane = new javax.swing.JTabbedPane();
         coachManagementPanel = new javax.swing.JPanel();
         coachManagementSplitPane = new javax.swing.JSplitPane();
-        coachListPanel = new javax.swing.JPanel();
-        coachListScrollPane = new javax.swing.JScrollPane();
-        coachListList = new javax.swing.JList<>();
         coachInfoPanel = new javax.swing.JPanel();
-        firstNameLabel = new javax.swing.JLabel();
-        firstNameTextField = new javax.swing.JTextField();
-        lastNameLabel = new javax.swing.JLabel();
-        lastNameTextField = new javax.swing.JTextField();
-        birthDateLabel = new javax.swing.JLabel();
-        phoneLabel = new javax.swing.JLabel();
-        phoneTextField = new javax.swing.JTextField();
-        emailLabel = new javax.swing.JLabel();
-        emailTextField = new javax.swing.JTextField();
-        salaryLabel = new javax.swing.JLabel();
-        salaryTextField = new javax.swing.JTextField();
-        firstYearLabel = new javax.swing.JLabel();
-        newUpdateButton = new javax.swing.JButton();
-        removeButton = new javax.swing.JButton();
-        firstYearSpinner = new javax.swing.JSpinner();
-        birthDateSpinner = new javax.swing.JSpinner();
-        passwordField = new javax.swing.JPasswordField();
-        passwordLabel = new javax.swing.JLabel();
+        coachFirstLabel = new javax.swing.JLabel();
+        coachFirstField = new javax.swing.JTextField();
+        coachLastLabel = new javax.swing.JLabel();
+        coachLastField = new javax.swing.JTextField();
+        coachBirthLabel = new javax.swing.JLabel();
+        coachBirthSpinner = new javax.swing.JSpinner();
+        coachPhoneLabel = new javax.swing.JLabel();
+        coachPhoneField = new javax.swing.JTextField();
+        coachEmailLabel = new javax.swing.JLabel();
+        coachEmailField = new javax.swing.JTextField();
+        coachSalaryLabel = new javax.swing.JLabel();
+        coachSalaryField = new javax.swing.JTextField();
+        coachYearLabel = new javax.swing.JLabel();
+        coachYearSpinner = new javax.swing.JSpinner();
+        coachPasswordLabel = new javax.swing.JLabel();
+        coachPasswordField = new javax.swing.JPasswordField();
+        coachUpdateButton = new javax.swing.JButton();
+        coachRemoveButton = new javax.swing.JButton();
+        coachErrorMessage = new javax.swing.JLabel();
+        coachScrollPane = new javax.swing.JScrollPane();
+        coachTable = new javax.swing.JTable();
         clientManagementPanel = new javax.swing.JPanel();
-        jSplitPane1 = new javax.swing.JSplitPane();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        clientManagementSplitPane = new javax.swing.JSplitPane();
+        clientInfoPanel = new javax.swing.JPanel();
+        clientFirstLabel = new javax.swing.JLabel();
+        clientFirstField = new javax.swing.JTextField();
+        clientLastLabel = new javax.swing.JLabel();
+        clientLastField = new javax.swing.JTextField();
+        clientBirthLabel = new javax.swing.JLabel();
+        clientBirthSpinner = new javax.swing.JSpinner();
+        clientGenderLabel = new javax.swing.JLabel();
+        clientGenderComboBox = new javax.swing.JComboBox<>();
+        clientTierLabel = new javax.swing.JLabel();
+        clientTierComboBox = new javax.swing.JComboBox<>();
+        clientExpiryLabel = new javax.swing.JLabel();
+        clientExpirySpinner = new javax.swing.JSpinner();
+        clientHeightLabel = new javax.swing.JLabel();
+        clientHeightField = new javax.swing.JTextField();
+        cmLabel = new javax.swing.JLabel();
+        clientWeightLabel = new javax.swing.JLabel();
+        clientWeightField = new javax.swing.JTextField();
+        kgLabel = new javax.swing.JLabel();
+        clientPhoneLabel = new javax.swing.JLabel();
+        clientPhoneField = new javax.swing.JTextField();
+        clientUpdateButton = new javax.swing.JButton();
+        clientRemoveButton = new javax.swing.JButton();
+        clientRenewButton = new javax.swing.JButton();
+        clientPasswordLabel = new javax.swing.JLabel();
+        clientPasswordField = new javax.swing.JPasswordField();
+        clientCoachLabel = new javax.swing.JLabel();
+        clientCoachComboBox = new javax.swing.JComboBox<>();
+        clientErrorMessage = new javax.swing.JLabel();
+        clientScrollPane = new javax.swing.JScrollPane();
+        clientTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -73,61 +133,49 @@ public class AdminUI extends javax.swing.JFrame {
             }
         });
 
-        coachManagementSplitPane.setDividerLocation(150);
-
-        coachListList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        coachListList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                coachListListValueChanged(evt);
-            }
-        });
-        coachListScrollPane.setViewportView(coachListList);
-
-        javax.swing.GroupLayout coachListPanelLayout = new javax.swing.GroupLayout(coachListPanel);
-        coachListPanel.setLayout(coachListPanelLayout);
-        coachListPanelLayout.setHorizontalGroup(
-            coachListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(coachListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-        );
-        coachListPanelLayout.setVerticalGroup(
-            coachListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(coachListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
-        );
-
-        coachManagementSplitPane.setLeftComponent(coachListPanel);
+        coachManagementSplitPane.setDividerLocation(200);
+        coachManagementSplitPane.setEnabled(false);
 
         coachInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Coach Info"));
 
-        firstNameLabel.setText("First Name:");
+        coachFirstLabel.setText("First Name:");
 
-        lastNameLabel.setText("Last Name:");
+        coachLastLabel.setText("Last Name:");
 
-        birthDateLabel.setText("Birth Date:");
+        coachBirthLabel.setText("Birth Date (dd/MM/yyyy):");
 
-        phoneLabel.setText("Phone Number:");
+        coachBirthSpinner.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(946713480000L), null, null, java.util.Calendar.DAY_OF_MONTH));
+        coachBirthSpinner.setEditor(new javax.swing.JSpinner.DateEditor(coachBirthSpinner, "dd/MM/yyyy"));
 
-        emailLabel.setText("Email:");
+        coachPhoneLabel.setText("Phone Number:");
 
-        salaryLabel.setText("Salary:");
+        coachEmailLabel.setText("Email:");
 
-        firstYearLabel.setText("First Coachin Year:");
+        coachSalaryLabel.setText("Salary:");
 
-        newUpdateButton.setText("Add");
-        newUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+        coachYearLabel.setText("First Coaching Year:");
+
+        coachYearSpinner.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.YEAR));
+        coachYearSpinner.setEditor(new javax.swing.JSpinner.DateEditor(coachYearSpinner, "yyyy"));
+
+        coachPasswordLabel.setText("Password:");
+
+        coachUpdateButton.setText("Add");
+        coachUpdateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newUpdateButtonActionPerformed(evt);
+                coachUpdateButtonActionPerformed(evt);
             }
         });
 
-        removeButton.setText("Remove");
+        coachRemoveButton.setText("Remove");
+        coachRemoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                coachRemoveButtonActionPerformed(evt);
+            }
+        });
 
-        firstYearSpinner.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.YEAR));
-        firstYearSpinner.setEditor(new javax.swing.JSpinner.DateEditor(firstYearSpinner, "yyyy"));
-
-        birthDateSpinner.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(946713480000L), null, null, java.util.Calendar.DAY_OF_MONTH));
-        birthDateSpinner.setEditor(new javax.swing.JSpinner.DateEditor(birthDateSpinner, "dd/MM/yyyy"));
-
-        passwordLabel.setText("Pass:");
+        coachErrorMessage.setForeground(new java.awt.Color(255, 0, 0));
+        coachErrorMessage.setText("jLabel1");
 
         javax.swing.GroupLayout coachInfoPanelLayout = new javax.swing.GroupLayout(coachInfoPanel);
         coachInfoPanel.setLayout(coachInfoPanelLayout);
@@ -135,36 +183,41 @@ public class AdminUI extends javax.swing.JFrame {
             coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(coachInfoPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(firstYearSpinner)
-                    .addGroup(coachInfoPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(firstNameTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(firstNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
-                                .addComponent(birthDateLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(emailLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(emailTextField, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addComponent(firstYearLabel)
-                            .addComponent(removeButton)))
-                    .addComponent(birthDateSpinner))
-                .addGap(18, 18, 18)
                 .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(coachInfoPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(newUpdateButton))
+                        .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(coachInfoPanelLayout.createSequentialGroup()
+                                .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(coachYearSpinner, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(coachFirstField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(coachFirstLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(coachBirthLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(coachBirthSpinner, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(coachEmailField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(coachEmailLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(coachYearLabel, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(18, 18, 18)
+                                .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(coachInfoPanelLayout.createSequentialGroup()
+                                        .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(coachLastField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(coachLastLabel)
+                                            .addComponent(coachPhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(coachPhoneLabel)
+                                            .addComponent(coachSalaryField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(coachSalaryLabel)
+                                            .addComponent(coachPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 377, Short.MAX_VALUE))
+                                    .addGroup(coachInfoPanelLayout.createSequentialGroup()
+                                        .addComponent(coachPasswordLabel)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(coachInfoPanelLayout.createSequentialGroup()
+                                .addComponent(coachRemoveButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(coachUpdateButton))
                     .addGroup(coachInfoPanelLayout.createSequentialGroup()
-                        .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(salaryLabel)
-                            .addComponent(phoneLabel)
-                            .addComponent(lastNameLabel)
-                            .addComponent(lastNameTextField)
-                            .addComponent(phoneTextField)
-                            .addComponent(salaryTextField)
-                            .addComponent(passwordLabel)
-                            .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
-                        .addGap(0, 47, Short.MAX_VALUE)))
+                        .addComponent(coachErrorMessage)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         coachInfoPanelLayout.setVerticalGroup(
@@ -172,44 +225,81 @@ public class AdminUI extends javax.swing.JFrame {
             .addGroup(coachInfoPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(firstNameLabel)
-                    .addComponent(lastNameLabel))
+                    .addComponent(coachFirstLabel)
+                    .addComponent(coachLastLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(coachFirstField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coachLastField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(birthDateLabel)
-                    .addComponent(phoneLabel))
+                    .addComponent(coachBirthLabel)
+                    .addComponent(coachPhoneLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(phoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(birthDateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(coachPhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coachBirthSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(emailLabel)
-                    .addComponent(salaryLabel))
+                    .addComponent(coachEmailLabel)
+                    .addComponent(coachSalaryLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(salaryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(coachEmailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coachSalaryField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(firstYearLabel)
-                    .addComponent(passwordLabel))
+                    .addComponent(coachYearLabel)
+                    .addComponent(coachPasswordLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(firstYearSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                    .addComponent(coachYearSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coachPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(coachErrorMessage)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(coachInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(newUpdateButton)
-                    .addComponent(removeButton))
+                    .addComponent(coachUpdateButton)
+                    .addComponent(coachRemoveButton))
                 .addContainerGap())
         );
 
         coachManagementSplitPane.setRightComponent(coachInfoPanel);
+
+        coachTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null}
+            },
+            new String [] {
+                "ID", "Full Name"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        coachTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        coachTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        coachTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        coachTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        coachTable.setShowGrid(false);
+        coachTable.setShowHorizontalLines(true);
+        coachTable.getTableHeader().setResizingAllowed(false);
+        coachTable.getTableHeader().setReorderingAllowed(false);
+        coachScrollPane.setViewportView(coachTable);
+
+        coachManagementSplitPane.setLeftComponent(coachScrollPane);
 
         javax.swing.GroupLayout coachManagementPanelLayout = new javax.swing.GroupLayout(coachManagementPanel);
         coachManagementPanel.setLayout(coachManagementPanelLayout);
@@ -217,46 +307,234 @@ public class AdminUI extends javax.swing.JFrame {
             coachManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(coachManagementPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(coachManagementSplitPane)
+                .addComponent(coachManagementSplitPane, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         coachManagementPanelLayout.setVerticalGroup(
             coachManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(coachManagementPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(coachManagementSplitPane)
+                .addComponent(coachManagementSplitPane, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         containerTabbedPane.addTab("Coach Management", coachManagementPanel);
 
-        jSplitPane1.setDividerLocation(150);
+        clientManagementSplitPane.setDividerLocation(200);
+        clientManagementSplitPane.setEnabled(false);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 150, Short.MAX_VALUE)
+        clientInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Client Info"));
+
+        clientFirstLabel.setText("First Name:");
+
+        clientLastLabel.setText("Last Name:");
+
+        clientBirthLabel.setText("Birth Date (dd/MM/yyyy):");
+
+        clientBirthSpinner.setModel(new javax.swing.SpinnerDateModel());
+        clientBirthSpinner.setEditor(new javax.swing.JSpinner.DateEditor(clientBirthSpinner, "dd/MM/yyyy"));
+
+        clientGenderLabel.setText("Gender:");
+
+        clientGenderComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
+
+        clientTierLabel.setText("Subscription Tier:");
+
+        clientTierComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Basic", "Premium" }));
+
+        clientExpiryLabel.setText("Expiry Date:");
+
+        clientExpirySpinner.setModel(new javax.swing.SpinnerDateModel());
+        clientExpirySpinner.setEditor(new javax.swing.JSpinner.DateEditor(clientExpirySpinner, "dd/MM/yyyy"));
+        clientExpirySpinner.setEnabled(false);
+
+        clientHeightLabel.setText("Height:");
+
+        cmLabel.setText("cm");
+
+        clientWeightLabel.setText("Weight:");
+
+        kgLabel.setText("kg");
+
+        clientPhoneLabel.setText("Phone Number:");
+
+        clientUpdateButton.setText("Add");
+        clientUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clientUpdateButtonActionPerformed(evt);
+            }
+        });
+
+        clientRemoveButton.setText("Remove");
+        clientRemoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clientRemoveButtonActionPerformed(evt);
+            }
+        });
+
+        clientRenewButton.setText("Renew");
+        clientRenewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clientRenewButtonActionPerformed(evt);
+            }
+        });
+
+        clientPasswordLabel.setText("Password:");
+
+        clientCoachLabel.setText("Coach:");
+
+        clientErrorMessage.setForeground(new java.awt.Color(255, 0, 0));
+        clientErrorMessage.setText("jLabel1");
+
+        javax.swing.GroupLayout clientInfoPanelLayout = new javax.swing.GroupLayout(clientInfoPanel);
+        clientInfoPanel.setLayout(clientInfoPanelLayout);
+        clientInfoPanelLayout.setHorizontalGroup(
+            clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(clientInfoPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, clientInfoPanelLayout.createSequentialGroup()
+                        .addComponent(clientRemoveButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(clientRenewButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(clientUpdateButton))
+                    .addGroup(clientInfoPanelLayout.createSequentialGroup()
+                        .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(clientPasswordField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(clientPasswordLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clientTierComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clientTierLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clientBirthSpinner)
+                            .addComponent(clientBirthLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clientFirstLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clientFirstField, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(18, 18, 18)
+                        .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(clientLastLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clientLastField)
+                            .addComponent(clientGenderLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clientGenderComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clientExpiryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clientExpirySpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                            .addComponent(clientCoachLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clientCoachComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(clientPhoneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                            .addComponent(clientPhoneField)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, clientInfoPanelLayout.createSequentialGroup()
+                                .addComponent(clientWeightField)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(kgLabel))
+                            .addComponent(clientWeightLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(clientInfoPanelLayout.createSequentialGroup()
+                                .addComponent(clientHeightField)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmLabel))
+                            .addComponent(clientHeightLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(clientInfoPanelLayout.createSequentialGroup()
+                        .addComponent(clientErrorMessage)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 418, Short.MAX_VALUE)
+        clientInfoPanelLayout.setVerticalGroup(
+            clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(clientInfoPanelLayout.createSequentialGroup()
+                .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clientFirstLabel)
+                    .addComponent(clientLastLabel)
+                    .addComponent(clientPhoneLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clientFirstField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clientLastField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clientPhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(clientInfoPanelLayout.createSequentialGroup()
+                        .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(clientBirthLabel)
+                            .addComponent(clientGenderLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(clientBirthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(clientGenderComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(clientInfoPanelLayout.createSequentialGroup()
+                        .addComponent(clientWeightLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(clientWeightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(kgLabel))))
+                .addGap(18, 18, 18)
+                .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(clientInfoPanelLayout.createSequentialGroup()
+                        .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(clientTierLabel)
+                            .addComponent(clientExpiryLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(clientTierComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(clientExpirySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(clientInfoPanelLayout.createSequentialGroup()
+                        .addComponent(clientHeightLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(clientHeightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmLabel))))
+                .addGap(18, 18, 18)
+                .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clientPasswordLabel)
+                    .addComponent(clientCoachLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clientPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clientCoachComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(clientErrorMessage)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addGroup(clientInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clientUpdateButton)
+                    .addComponent(clientRemoveButton)
+                    .addComponent(clientRenewButton))
+                .addContainerGap())
         );
 
-        jSplitPane1.setLeftComponent(jPanel1);
+        clientManagementSplitPane.setRightComponent(clientInfoPanel);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 418, Short.MAX_VALUE)
-        );
+        clientTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null}
+            },
+            new String [] {
+                "ID", "Full Name"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
-        jSplitPane1.setRightComponent(jPanel2);
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        clientTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        clientTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        clientTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        clientTable.setShowGrid(false);
+        clientTable.setShowHorizontalLines(true);
+        clientTable.getTableHeader().setResizingAllowed(false);
+        clientTable.getTableHeader().setReorderingAllowed(false);
+        clientScrollPane.setViewportView(clientTable);
+
+        clientManagementSplitPane.setLeftComponent(clientScrollPane);
 
         javax.swing.GroupLayout clientManagementPanelLayout = new javax.swing.GroupLayout(clientManagementPanel);
         clientManagementPanel.setLayout(clientManagementPanelLayout);
@@ -264,14 +542,14 @@ public class AdminUI extends javax.swing.JFrame {
             clientManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(clientManagementPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSplitPane1)
+                .addComponent(clientManagementSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
                 .addContainerGap())
         );
         clientManagementPanelLayout.setVerticalGroup(
             clientManagementPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(clientManagementPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSplitPane1)
+                .addComponent(clientManagementSplitPane, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -291,189 +569,375 @@ public class AdminUI extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        updateCoachList();
+        // Connect to Database if Not Connected
+        if (!DBHandler.isConnected()) DBHandler.init();
+        
+        // Update Info Presented
+        updateCoachTable();
+        updateClientTable();
+        resetInfo(coachInfoPanel);
+        resetInfo(clientInfoPanel);
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // Close Database Connection
         DBHandler.close();
     }//GEN-LAST:event_formWindowClosing
 
-    private void newUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newUpdateButtonActionPerformed
-        java.util.Date birthDateTemp = (java.util.Date) birthDateSpinner.getValue();
-        java.sql.Date birthDate = new java.sql.Date(birthDateTemp.getTime());
-        java.util.Date firstYearTemp = (java.util.Date) firstYearSpinner.getValue();
-        java.sql.Date firstYear = new java.sql.Date(firstYearTemp.getTime());
+    private void coachUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coachUpdateButtonActionPerformed
+        // Get Info
+        if (!validateCoachInfo()) return;
+        Coach user = getCoachInfo();
+        String password = CommonHelper.getPasswordString(coachPasswordField);
         
-        if (newUpdateButton.getText().equals("Add")) {
-            DBHandler.update("INSERT INTO users_creds (user_type, user_pass) VALUES('coach', ?)", passwordField.getText());
+        // Add User if in Adding Mode
+        if (isAddingUser(coachCurrentIndex, coaches)) {
+            // Add User to the Database and Update coaches List
+            CoachDA.createCoach(user, password);
+            coaches.add(user);
             
-            int id = -1;
-            ResultSet idResults = DBHandler.query("SELECT LAST_INSERT_ID() FROM users_creds");
-            try {
-                if(!idResults.next()) throw new SQLException("User Creation Failed");
-                id = idResults.getInt("LAST_INSERT_ID()");
-            } catch (SQLException exp) {
-                System.out.println(exp);
-            }
-            
-            DBHandler.update("INSERT INTO coaches VALUES(?, ?, ?, ?, ?, ?, ? ,?)",
-                    id,
-                    firstNameTextField.getText(),
-                    lastNameTextField.getText(),
-                    birthDate,
-                    phoneTextField.getText(),
-                    emailTextField.getText(),
-                    firstYear.toLocalDate().getYear(),
-                    salaryTextField.getText()
-            );
-            
-            updateCoachList();
+            // Update Info in List
+            updateCoachTable();
+            resetInfo(coachInfoPanel);
             return;
         }
         
-        int id = userIDs.get(coachListList.getSelectedIndex());
-        
-        if (!passwordField.getText().equals("")) {
-            DBHandler.update("UPDATE users_creds SET user_pass=? WHERE id=?", id);
+        // Update User Password if Supplied
+        // And Update the User's Info
+        int id = coaches.get(coachCurrentIndex).getId();
+        if (!password.equals("")) {
+            DBHandler.update("UPDATE users_creds SET user_pass=? WHERE id=?", password, id);
         }
-        DBHandler.update("UPDATE coaches SET first_name=?, last_name=?, birth_date=?, tel=?, email=?, first_year=?, salary=? WHERE id=?",
-            firstNameTextField.getText(),
-            lastNameTextField.getText(),
-            birthDate,
-            phoneTextField.getText(),
-            emailTextField.getText(),
-            firstYear,
-            salaryTextField.getText(),
-            id
+        CoachDA.updateCoach(user);
+        coaches.set(coachCurrentIndex, user);
+        updateCoachTable();
+    }//GEN-LAST:event_coachUpdateButtonActionPerformed
+
+    private void coachRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coachRemoveButtonActionPerformed
+        // Remove User from Database and Update coaches List
+        CoachDA.deleteCoach(coaches.get(coachCurrentIndex).getId());
+        coaches.remove(coachCurrentIndex);
+        updateCoachTable();
+    }//GEN-LAST:event_coachRemoveButtonActionPerformed
+
+    private void clientUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientUpdateButtonActionPerformed
+        // Get Info
+        if (!validateClientInfo()) return;
+        Client user = getClientInfo();
+        String password = CommonHelper.getPasswordString(clientPasswordField);
+        
+        if (isAddingUser(clientCurrentIndex, clients)) {
+            // Add User to the Database and Update clients List
+            ClientDA.createClient(user, password);
+            clients.add(user);
+            
+            // Update Info Presented in List
+            updateClientTable();
+            resetInfo(clientInfoPanel);
+            return;
+        }
+        
+        // Update User Password if Supplied
+        // And Update the User's Info
+        int id = clients.get(clientCurrentIndex).getId();
+        if (!password.equals("")) {
+            DBHandler.update("UPDATE users_creds SET user_pass=? WHERE id=?", password, id);
+        }
+        ClientDA.updateClient(user);
+        clients.set(clientCurrentIndex, user);
+        updateClientTable();
+    }//GEN-LAST:event_clientUpdateButtonActionPerformed
+
+    private void clientRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientRemoveButtonActionPerformed
+        // Remove User from Database and Update clients List
+        ClientDA.deleteClient(clients.get(clientCurrentIndex).getId());
+        clients.remove(clientCurrentIndex);
+        updateClientTable();
+    }//GEN-LAST:event_clientRemoveButtonActionPerformed
+
+    private void clientRenewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientRenewButtonActionPerformed
+        // Get Client Affected and Update Expiry Date to be 30 Days from Now
+        // Then Send New Data to the Database
+        Client current = clients.get(clientCurrentIndex);
+        current.setExpiryDate(CommonHelper.getDateAfterNDays(30));
+        DBHandler.update("UPDATE clients SET expiry_date=? WHERE id=?",
+                new java.sql.Date(current.getExpiryDate().getTime()),
+                current.getId()
         );
-    }//GEN-LAST:event_newUpdateButtonActionPerformed
-    
-    private void coachListListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_coachListListValueChanged
+        
+        // Update Info of Client Presented in the Interface
+        updateClientInfo(current);
+    }//GEN-LAST:event_clientRenewButtonActionPerformed
+ 
+    private void coachTableValueChanged(ListSelectionEvent evt) {
+        // Skip If value is still Undetermined
         if (evt.getValueIsAdjusting()) return;
-
-        int list_index = coachListList.getSelectedIndex();
-        if (list_index == coachListList.getModel().getSize()-1) {
-            resetInfo();
+        
+        // Get Row Selected in List
+        coachCurrentIndex = coachTable.getSelectedRow();
+        if (isAddingUser(coachCurrentIndex, coaches)) {
+            // If Adding a User Reset Interface and Remove Unnecessary Components
+            resetInfo(coachInfoPanel);
+            coachRemoveButton.setVisible(false);
+            coachUpdateButton.setText("Add");
             return;
         }
-
-        removeButton.setVisible(true);
-        newUpdateButton.setText("Update");
-
-        ResultSet info = DBHandler.query("SELECT * FROM coaches WHERE id=?", userIDs.get(list_index));
-        try {
-            if (!info.next()) throw new SQLException("No Such User");
-
-            firstNameTextField.setText(info.getString("first_name"));
-            lastNameTextField.setText(info.getString("last_name"));
-            birthDateSpinner.setValue(info.getDate("birth_date"));
-            phoneTextField.setText(info.getString("tel"));
-            emailTextField.setText(info.getString("email"));
-            salaryTextField.setText(info.getFloat("salary") + "");
-            firstYearSpinner.setValue(info.getDate("first_year"));
-        } catch (SQLException exp) {
-            System.out.println(exp);
-        }
-    }//GEN-LAST:event_coachListListValueChanged
-
-    private void resetInfo() {
-        firstNameTextField.setText("");
-        lastNameTextField.setText("");
-        phoneTextField.setText("");
-        emailTextField.setText("");
-        salaryTextField.setText("");
-        removeButton.setVisible(false);
-        newUpdateButton.setText("Add");
+        
+        // If Updating Existing Info, Fetch Said Info from Database
+        // And Display Necessary Components
+        updateCoachInfo(coaches.get(coachCurrentIndex));
+        coachRemoveButton.setVisible(true);
+        coachUpdateButton.setText("Update");
     }
     
-    private void updateCoachList() {
-        ResultSet coaches = DBHandler.query("SELECT id, first_name, last_name FROM coaches");
-
-        try {
-            DefaultListModel tempModel = new DefaultListModel();
-            while (coaches.next()) {
-                int id = coaches.getInt("id");
-                String first = coaches.getString("first_name");
-                String last = coaches.getString("last_name");
-                
-                userIDs.add(id);
-                tempModel.addElement(id + ": " + first + " " + last);
-            }
-            tempModel.addElement("Add New Coach");
-            coachListList.setModel(tempModel);
-        } catch (SQLException exp) {
-            System.out.println(exp);
+    private void clientTableValueChanged(ListSelectionEvent evt) {
+        // Skip If value is still Undetermined
+        if (evt.getValueIsAdjusting()) return;
+        
+        // Get Row Selected in List
+        clientCurrentIndex = clientTable.getSelectedRow();
+        if (isAddingUser(clientCurrentIndex, clients)) {
+            // If Adding a User Reset Interface and Remove Unnecessary Components
+            resetInfo(clientInfoPanel);
+            clientRemoveButton.setVisible(false);
+            clientUpdateButton.setText("Add");
+            clientRenewButton.setVisible(false);
+            return;
         }
+        
+        // If Updating Existing Info, Fetch Said Info from Database
+        // And Display Necessary Components
+        updateClientInfo(clients.get(clientCurrentIndex));
+        clientRemoveButton.setVisible(true);
+        clientUpdateButton.setText("Update");
+        clientRenewButton.setVisible(true);
     }
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdminUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdminUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdminUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdminUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AdminUI().setVisible(true);
-            }
-        });
+    private boolean isAddingUser(int index, ArrayList<? extends User> users) {
+        // Return True if Selected Row is the Last Row
+        // Or No Rows are Selected
+        return (index == users.size() || index == -1);
     }
-
+    private Coach getCoachInfo() {
+        // Get Info
+        Coach user = new Coach();
+        user.setFirstName(coachFirstField.getText());
+        user.setLastName(coachLastField.getText());
+        user.setBirthDate((java.util.Date) coachBirthSpinner.getValue());
+        user.setPhoneNumber(coachPhoneField.getText());
+        
+        // Get Email Info and Set it to 'null' if no Value is Submitted
+        String email = coachEmailField.getText();
+        if (email.equals("")) user.setEmail(null);
+        else user.setEmail(email);
+        
+        user.setFirstYear(CommonHelper.getSQLDate(coachYearSpinner).toLocalDate().getYear());
+        user.setSalary(Float.parseFloat(coachSalaryField.getText()));
+        
+        // Return the coach
+        return user;
+    }
+    private Client getClientInfo() {
+        // Get Info
+        Client user = new Client();
+        user.setFirstName(clientFirstField.getText());
+        user.setLastName(clientLastField.getText());
+        user.setBirthDate((java.util.Date) clientBirthSpinner.getValue());
+        user.setGender(((String) clientGenderComboBox.getSelectedItem()).toLowerCase());
+        user.setTier(((String) clientTierComboBox.getSelectedItem()).toLowerCase());
+        user.setExpiryDate((java.util.Date) clientExpirySpinner.getValue());
+        user.setHeight(Float.parseFloat(clientHeightField.getText()));
+        user.setWeight(Float.parseFloat(clientWeightField.getText()));
+        user.setPhoneNumber(clientPhoneField.getText());
+        user.setCoachId(
+                ((Coach) clientCoachComboBox.getModel().getSelectedItem()).getId()
+        );
+        
+        // Return the Client
+        return user;
+    }
+    private void resetInfo(JPanel infoPanel) {
+        // Get a new Date Object
+        java.util.Date defaultDate = new java.util.Date();
+        defaultDate.setTime(0);
+        
+        // Loop Through All Components and Reset Them
+        Component[] comps = infoPanel.getComponents();
+        for (Component c : comps) {
+            if (c instanceof JTextField) {
+                ((JTextField) c).setText("");
+            } else if (c instanceof JPasswordField) {
+                ((JPasswordField) c).setText("");
+            } else if (c instanceof JSpinner) {
+                ((JSpinner) c).setValue(defaultDate);
+            }
+        }
+        
+        // Remove Unnecessary Components
+        coachRemoveButton.setVisible(false);
+        coachUpdateButton.setText("Add");
+    }
+    private void updateCoachTable() {
+        // Get All Coaches in the Database
+        coaches = CoachDA.getAllCoachs();
+        
+        // Update ComboBox of Coach Selection in Client Management
+        updateCoachComboBox();
+        
+        // Update List of Coaches and Reset Indices
+        coachTable.setModel(CommonHelper.getUserIdTable(coaches));
+        coachTable.getColumnModel().getColumn(0).setPreferredWidth(25);
+        coachCurrentIndex = coaches.size();
+        
+        // Remove Error Messages
+        coachErrorMessage.setVisible(false);
+    }
+    private void updateCoachComboBox() {
+        // Update ComboBox of Coach Selection in Client Management
+        clientCoachComboBox.setModel(CommonHelper.createComboBox(coaches));
+    }
+    private void updateClientTable() {
+        // Get All Clients in the Database
+        clients = ClientDA.getAllClients();
+        
+        // Update List of Clients and Reset Indices
+        clientTable.setModel(CommonHelper.getUserIdTable(clients));
+        clientTable.getColumnModel().getColumn(0).setPreferredWidth(25);
+        clientCurrentIndex = clients.size();
+        
+        // Remove Error Messages
+        clientErrorMessage.setVisible(false);
+    }
+    private void updateCoachInfo(Coach user) {
+        // Set Info in Appropriate Fields
+        coachFirstField.setText(user.getFirstName());
+        coachLastField.setText(user.getLastName());
+        coachBirthSpinner.setValue(user.getBirthDate());
+        coachPhoneField.setText(user.getPhoneNumber());
+        coachEmailField.setText(user.getEmail());
+        coachSalaryField.setText(((Float) user.getSalary()).toString());
+        coachYearSpinner.setValue(user.getFirstYearDate());
+    }
+    private void updateClientInfo(Client user) {
+        // Set Info in Appropriate Fields
+        clientFirstField.setText(user.getFirstName());
+        clientLastField.setText(user.getLastName());
+        clientBirthSpinner.setValue(user.getBirthDate());
+        clientGenderComboBox.setSelectedIndex(
+                CommonHelper.parseGender(user.getGender())
+        );
+        clientTierComboBox.setSelectedIndex(
+                CommonHelper.parseTier(user.getTier())
+        );
+        clientExpirySpinner.setValue(user.getExpiryDate());
+        clientHeightField.setText(((Float) user.getHeight()).toString());
+        clientWeightField.setText(((Float) user.getWeight()).toString());
+        clientPhoneField.setText(user.getPhoneNumber());
+    }
+    private boolean validateCoachInfo() {
+        // Sensitive Info
+        String email = coachEmailField.getText();
+        String phone = coachPhoneField.getText();
+        String salary = coachSalaryField.getText();
+        
+        // Validate Each Field
+        if (!(Validator.isEmail(email) || email.equals("")))
+            return CommonHelper.sendError(coachErrorMessage, "Invalid Email");
+        if (!Validator.isPhone(phone))
+            return CommonHelper.sendError(coachErrorMessage, "Invalid Phone Number");
+        if (!Validator.isDecimal(salary))
+            return CommonHelper.sendError(coachErrorMessage, "Invalid Salary");
+        
+        // Return True if All Fields are Valid
+        return true;
+    }
+    private boolean validateClientInfo() {
+        // Sensitive Info
+        String phone = clientPhoneField.getText();
+        String height = clientHeightField.getText();
+        String weight = clientWeightField.getText();
+        int coachSelected = clientCoachComboBox.getSelectedIndex();
+        
+        // Validate Each Field
+        if (!Validator.isPhone(phone)) 
+            return CommonHelper.sendError(clientErrorMessage, "Invalid Phone Number");
+        if (!Validator.isDecimal(height)) 
+            return CommonHelper.sendError(clientErrorMessage, "Invalid Height");
+        if (!Validator.isDecimal(weight)) 
+            return CommonHelper.sendError(clientErrorMessage, "Invalid Weight");
+        if (coachSelected == 0)
+            return CommonHelper.sendError(clientErrorMessage, "Invalid Coach");
+        
+        // Return True if All Fields are Valid
+        return true;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel birthDateLabel;
-    private javax.swing.JSpinner birthDateSpinner;
+    private javax.swing.JLabel clientBirthLabel;
+    private javax.swing.JSpinner clientBirthSpinner;
+    private javax.swing.JComboBox<String> clientCoachComboBox;
+    private javax.swing.JLabel clientCoachLabel;
+    private javax.swing.JLabel clientErrorMessage;
+    private javax.swing.JLabel clientExpiryLabel;
+    private javax.swing.JSpinner clientExpirySpinner;
+    private javax.swing.JTextField clientFirstField;
+    private javax.swing.JLabel clientFirstLabel;
+    private javax.swing.JComboBox<String> clientGenderComboBox;
+    private javax.swing.JLabel clientGenderLabel;
+    private javax.swing.JTextField clientHeightField;
+    private javax.swing.JLabel clientHeightLabel;
+    private javax.swing.JPanel clientInfoPanel;
+    private javax.swing.JTextField clientLastField;
+    private javax.swing.JLabel clientLastLabel;
     private javax.swing.JPanel clientManagementPanel;
+    private javax.swing.JSplitPane clientManagementSplitPane;
+    private javax.swing.JPasswordField clientPasswordField;
+    private javax.swing.JLabel clientPasswordLabel;
+    private javax.swing.JTextField clientPhoneField;
+    private javax.swing.JLabel clientPhoneLabel;
+    private javax.swing.JButton clientRemoveButton;
+    private javax.swing.JButton clientRenewButton;
+    private javax.swing.JScrollPane clientScrollPane;
+    private javax.swing.JTable clientTable;
+    private javax.swing.JComboBox<String> clientTierComboBox;
+    private javax.swing.JLabel clientTierLabel;
+    private javax.swing.JButton clientUpdateButton;
+    private javax.swing.JTextField clientWeightField;
+    private javax.swing.JLabel clientWeightLabel;
+    private javax.swing.JLabel cmLabel;
+    private javax.swing.JLabel coachBirthLabel;
+    private javax.swing.JSpinner coachBirthSpinner;
+    private javax.swing.JTextField coachEmailField;
+    private javax.swing.JLabel coachEmailLabel;
+    private javax.swing.JLabel coachErrorMessage;
+    private javax.swing.JTextField coachFirstField;
+    private javax.swing.JLabel coachFirstLabel;
     private javax.swing.JPanel coachInfoPanel;
-    private javax.swing.JList<String> coachListList;
-    private javax.swing.JPanel coachListPanel;
-    private javax.swing.JScrollPane coachListScrollPane;
+    private javax.swing.JTextField coachLastField;
+    private javax.swing.JLabel coachLastLabel;
     private javax.swing.JPanel coachManagementPanel;
     private javax.swing.JSplitPane coachManagementSplitPane;
+    private javax.swing.JPasswordField coachPasswordField;
+    private javax.swing.JLabel coachPasswordLabel;
+    private javax.swing.JTextField coachPhoneField;
+    private javax.swing.JLabel coachPhoneLabel;
+    private javax.swing.JButton coachRemoveButton;
+    private javax.swing.JTextField coachSalaryField;
+    private javax.swing.JLabel coachSalaryLabel;
+    private javax.swing.JScrollPane coachScrollPane;
+    private javax.swing.JTable coachTable;
+    private javax.swing.JButton coachUpdateButton;
+    private javax.swing.JLabel coachYearLabel;
+    private javax.swing.JSpinner coachYearSpinner;
     private javax.swing.JTabbedPane containerTabbedPane;
-    private javax.swing.JLabel emailLabel;
-    private javax.swing.JTextField emailTextField;
-    private javax.swing.JLabel firstNameLabel;
-    private javax.swing.JTextField firstNameTextField;
-    private javax.swing.JLabel firstYearLabel;
-    private javax.swing.JSpinner firstYearSpinner;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JLabel lastNameLabel;
-    private javax.swing.JTextField lastNameTextField;
-    private javax.swing.JButton newUpdateButton;
-    private javax.swing.JPasswordField passwordField;
-    private javax.swing.JLabel passwordLabel;
-    private javax.swing.JLabel phoneLabel;
-    private javax.swing.JTextField phoneTextField;
-    private javax.swing.JButton removeButton;
-    private javax.swing.JLabel salaryLabel;
-    private javax.swing.JTextField salaryTextField;
+    private javax.swing.JLabel kgLabel;
     // End of variables declaration//GEN-END:variables
-
-    private ArrayList<Integer> userIDs;
+    
+    private int coachCurrentIndex;
+    private int clientCurrentIndex;
+    
+    private ArrayList<Client> clients;
+    private ArrayList<Coach> coaches;
 }

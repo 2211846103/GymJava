@@ -4,6 +4,12 @@
  */
 package itse322;
 
+// Imports
+import java.util.ArrayList;
+import javax.swing.event.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author Zenjar
@@ -13,8 +19,19 @@ public class CoachUI extends javax.swing.JFrame {
     /**
      * Creates new form CoachUI
      */
-    public CoachUI() {
+    public CoachUI(Coach user) {
         initComponents();
+        this.user = user;
+        
+        // Hide Message Until Necessary
+        errorMessage.setVisible(false);
+        
+        // Setup Listeners
+        scheduleTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent evt) {
+                scheduleTableValueChanged(evt);
+            }
+        });
     }
 
     /**
@@ -28,48 +45,357 @@ public class CoachUI extends javax.swing.JFrame {
 
         containerTabbedPane = new javax.swing.JTabbedPane();
         schedulesTab = new javax.swing.JPanel();
-        clientsInfoTab = new javax.swing.JPanel();
+        clientFullNameLabel = new javax.swing.JLabel();
+        clientFullNameField = new javax.swing.JTextField();
+        clientAgeLabel = new javax.swing.JLabel();
+        clientAgeField = new javax.swing.JTextField();
+        clientHeightLabel = new javax.swing.JLabel();
+        clientHeightField = new javax.swing.JTextField();
+        clientWeightLabel = new javax.swing.JLabel();
+        clientWeightField = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        scheduleTable = new javax.swing.JTable();
+        chooseClientLabel = new javax.swing.JLabel();
+        clientComboBox = new javax.swing.JComboBox<>();
+        weekdayLabel = new javax.swing.JLabel();
+        weekdayComboBox = new javax.swing.JComboBox<>();
+        updateScheduleButton = new javax.swing.JButton();
+        addExerciseButton = new javax.swing.JButton();
+        removeExerciseButton = new javax.swing.JButton();
+        newScheduleComboBox = new javax.swing.JComboBox<>();
+        newScheduleLabel = new javax.swing.JLabel();
+        addScheduleButton = new javax.swing.JButton();
         personalTab = new javax.swing.JPanel();
+        idLabel = new javax.swing.JLabel();
+        idValueLabel = new javax.swing.JLabel();
+        firstNameLabel = new javax.swing.JLabel();
+        firstNameField = new javax.swing.JTextField();
+        lastNameLabel = new javax.swing.JLabel();
+        lastNameField = new javax.swing.JTextField();
+        birthDateLabel = new javax.swing.JLabel();
+        birthDateSpinner = new javax.swing.JSpinner();
+        phoneLabel = new javax.swing.JLabel();
+        phoneField = new javax.swing.JTextField();
+        emailLabel = new javax.swing.JLabel();
+        emailField = new javax.swing.JTextField();
+        firstYearLabel = new javax.swing.JLabel();
+        firstYearSpinner = new javax.swing.JSpinner();
+        salaryLabel = new javax.swing.JLabel();
+        salaryField = new javax.swing.JTextField();
+        updateCoachButton = new javax.swing.JButton();
+        errorMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
+
+        clientFullNameLabel.setText("Full Name:");
+
+        clientFullNameField.setEnabled(false);
+
+        clientAgeLabel.setText("Age:");
+
+        clientAgeField.setEnabled(false);
+
+        clientHeightLabel.setText("Height");
+
+        clientHeightField.setEnabled(false);
+
+        clientWeightLabel.setText("Weight:");
+
+        clientWeightField.setEnabled(false);
+
+        scheduleTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Exercise", "Reps", "Sets"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        scheduleTable.setShowGrid(true);
+        scheduleTable.getTableHeader().setResizingAllowed(false);
+        scheduleTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(scheduleTable);
+
+        chooseClientLabel.setText("Choose Client:");
+
+        clientComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Select" }));
+        clientComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                clientComboBoxItemStateChanged(evt);
+            }
+        });
+
+        weekdayLabel.setText("Choose Day of the Week:");
+
+        weekdayComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday" }));
+        weekdayComboBox.setEnabled(false);
+        weekdayComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                weekdayComboBoxItemStateChanged(evt);
+            }
+        });
+
+        updateScheduleButton.setText("Update");
+        updateScheduleButton.setEnabled(false);
+        updateScheduleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateScheduleButtonActionPerformed(evt);
+            }
+        });
+
+        addExerciseButton.setText("Add Exercise");
+        addExerciseButton.setEnabled(false);
+        addExerciseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addExerciseButtonActionPerformed(evt);
+            }
+        });
+
+        removeExerciseButton.setText("Remove Exercise");
+        removeExerciseButton.setEnabled(false);
+        removeExerciseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeExerciseButtonActionPerformed(evt);
+            }
+        });
+
+        newScheduleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Select", "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday" }));
+        newScheduleComboBox.setEnabled(false);
+        newScheduleComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                newScheduleComboBoxItemStateChanged(evt);
+            }
+        });
+
+        newScheduleLabel.setText("Add New Schedule");
+
+        addScheduleButton.setText("Add");
+        addScheduleButton.setEnabled(false);
+        addScheduleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addScheduleButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout schedulesTabLayout = new javax.swing.GroupLayout(schedulesTab);
         schedulesTab.setLayout(schedulesTabLayout);
         schedulesTabLayout.setHorizontalGroup(
             schedulesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 524, Short.MAX_VALUE)
+            .addGroup(schedulesTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(schedulesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(clientWeightField)
+                    .addComponent(clientWeightLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(clientComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(chooseClientLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                    .addComponent(clientHeightLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(clientAgeField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(clientAgeLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(clientFullNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(clientFullNameField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(clientHeightField, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGap(18, 18, 18)
+                .addGroup(schedulesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(schedulesTabLayout.createSequentialGroup()
+                        .addGroup(schedulesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(weekdayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(weekdayComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(schedulesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(schedulesTabLayout.createSequentialGroup()
+                                .addComponent(addScheduleButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(newScheduleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(newScheduleLabel))))
+                .addGap(0, 21, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, schedulesTabLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(removeExerciseButton)
+                .addGap(18, 18, 18)
+                .addComponent(addExerciseButton)
+                .addGap(18, 18, 18)
+                .addComponent(updateScheduleButton)
+                .addContainerGap())
         );
         schedulesTabLayout.setVerticalGroup(
             schedulesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 360, Short.MAX_VALUE)
+            .addGroup(schedulesTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(schedulesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chooseClientLabel)
+                    .addComponent(weekdayLabel)
+                    .addComponent(newScheduleLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(schedulesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clientComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(weekdayComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(newScheduleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addScheduleButton))
+                .addGap(18, 18, 18)
+                .addGroup(schedulesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(schedulesTabLayout.createSequentialGroup()
+                        .addComponent(clientFullNameLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(clientFullNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(clientAgeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(clientAgeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(clientHeightLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(clientHeightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(clientWeightLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(clientWeightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGroup(schedulesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(updateScheduleButton)
+                    .addComponent(addExerciseButton)
+                    .addComponent(removeExerciseButton))
+                .addContainerGap())
         );
 
         containerTabbedPane.addTab("Client Schedules", schedulesTab);
 
-        javax.swing.GroupLayout clientsInfoTabLayout = new javax.swing.GroupLayout(clientsInfoTab);
-        clientsInfoTab.setLayout(clientsInfoTabLayout);
-        clientsInfoTabLayout.setHorizontalGroup(
-            clientsInfoTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 524, Short.MAX_VALUE)
-        );
-        clientsInfoTabLayout.setVerticalGroup(
-            clientsInfoTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 360, Short.MAX_VALUE)
-        );
+        idLabel.setFont(new java.awt.Font("sansserif", 1, 13)); // NOI18N
+        idLabel.setText("Coach ID:");
 
-        containerTabbedPane.addTab("Clients Info", clientsInfoTab);
+        idValueLabel.setFont(new java.awt.Font("sansserif", 1, 13)); // NOI18N
+        idValueLabel.setText("123");
+
+        firstNameLabel.setText("First Name:");
+
+        firstNameField.setEnabled(false);
+
+        lastNameLabel.setText("Last Name:");
+
+        lastNameField.setEnabled(false);
+
+        birthDateLabel.setText("Birth Date:");
+
+        birthDateSpinner.setModel(new javax.swing.SpinnerDateModel());
+        birthDateSpinner.setEditor(new javax.swing.JSpinner.DateEditor(birthDateSpinner, "dd/MM/yyyy"));
+        birthDateSpinner.setEnabled(false);
+
+        phoneLabel.setText("Phone Number:");
+
+        emailLabel.setText("Email:");
+
+        firstYearLabel.setText("First Year of Coaching:");
+
+        firstYearSpinner.setModel(new javax.swing.SpinnerDateModel());
+        firstYearSpinner.setEditor(new javax.swing.JSpinner.DateEditor(firstYearSpinner, "yyyy"));
+        firstYearSpinner.setEnabled(false);
+
+        salaryLabel.setText("Salary:");
+
+        salaryField.setEnabled(false);
+
+        updateCoachButton.setText("Update");
+        updateCoachButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateCoachButtonActionPerformed(evt);
+            }
+        });
+
+        errorMessage.setForeground(new java.awt.Color(255, 0, 0));
+        errorMessage.setText("jLabel1");
 
         javax.swing.GroupLayout personalTabLayout = new javax.swing.GroupLayout(personalTab);
         personalTab.setLayout(personalTabLayout);
         personalTabLayout.setHorizontalGroup(
             personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 524, Short.MAX_VALUE)
+            .addGroup(personalTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(emailField)
+                    .addComponent(emailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(birthDateSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                    .addComponent(birthDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(firstNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, personalTabLayout.createSequentialGroup()
+                        .addComponent(idLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(idValueLabel))
+                    .addComponent(firstNameField, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGap(18, 18, 18)
+                .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(personalTabLayout.createSequentialGroup()
+                        .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lastNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lastNameField)
+                            .addComponent(phoneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                            .addComponent(phoneField))
+                        .addGap(18, 18, 18)
+                        .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(salaryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(salaryField)
+                            .addComponent(firstYearLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                            .addComponent(firstYearSpinner)))
+                    .addComponent(errorMessage))
+                .addContainerGap(164, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, personalTabLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(updateCoachButton)
+                .addContainerGap())
         );
         personalTabLayout.setVerticalGroup(
             personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 360, Short.MAX_VALUE)
+            .addGroup(personalTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(idLabel)
+                    .addComponent(idValueLabel)
+                    .addComponent(errorMessage))
+                .addGap(18, 18, 18)
+                .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(firstNameLabel)
+                    .addComponent(lastNameLabel)
+                    .addComponent(salaryLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(salaryField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(birthDateLabel)
+                    .addComponent(phoneLabel)
+                    .addComponent(firstYearLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(birthDateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(phoneField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(firstYearSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(emailLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
+                .addComponent(updateCoachButton)
+                .addContainerGap())
         );
 
         containerTabbedPane.addTab("Personal Info", personalTab);
@@ -78,7 +404,7 @@ public class CoachUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(containerTabbedPane)
+            .addComponent(containerTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -86,47 +412,329 @@ public class CoachUI extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // Connect to Database if Not Connected
+        if (!DBHandler.isConnected()) DBHandler.init();
+        
+        // Update Info in Interfaces
+        updateCoachInfo();
+        getClients();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // Close Connection to Databse
+        DBHandler.close();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void clientComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_clientComboBoxItemStateChanged
+        // Skip if This is an Unselection Event
+        if (evt.getStateChange() == java.awt.event.ItemEvent.DESELECTED) return;
+        
+        // If No Client Is Selected Disable All Functionalities
+        if (clientComboBox.getSelectedIndex() == 0) {
+            weekdayComboBox.setEnabled(false);
+            newScheduleComboBox.setEnabled(false);
+            addScheduleButton.setEnabled(false);
+            addExerciseButton.setEnabled(false);
+            updateScheduleButton.setEnabled(false);
+            return;
+        }
+        
+        // If a Client is Selected Enable Selecting a Schedule
+        // And Enable Addition of a new Schedule
+        weekdayComboBox.setEnabled(true);
+        newScheduleComboBox.setEnabled(true);
+        
+        // Acquire Selected Client and Update Info in Interface
+        currentViewedClient = (Client) clientComboBox.getSelectedItem();
+        updateClientInfo();
+        getClientSchedules();
+    }//GEN-LAST:event_clientComboBoxItemStateChanged
+
+    private void weekdayComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_weekdayComboBoxItemStateChanged
+        // Skip if This is an Unselection Event
+        if (evt.getStateChange() == java.awt.event.ItemEvent.DESELECTED) return;
+        
+        // If No Day Is Selected Disable All Functionalities
+        if (weekdayComboBox.getSelectedIndex() == 0) {
+            addExerciseButton.setEnabled(false);
+            updateScheduleButton.setEnabled(false);
+            return;
+        }
+        
+        // If a Day is Selected Enable Selecting a Addition of Exercises
+        // And Updating Schedule's Existing Exercises
+        addExerciseButton.setEnabled(true);
+        updateScheduleButton.setEnabled(true);
+        
+        // Acquire Selected Schedule and Update Info in Interface
+        currentViewedSchedule = (Schedule) weekdayComboBox.getSelectedItem();
+        updateScheduleTable();
+    }//GEN-LAST:event_weekdayComboBoxItemStateChanged
+
+    private void addExerciseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addExerciseButtonActionPerformed
+        // Add A new Empty Row to the Table
+        DefaultTableModel model = (DefaultTableModel) scheduleTable.getModel();
+        model.addRow(new Object[]{"", "", ""});
+    }//GEN-LAST:event_addExerciseButtonActionPerformed
+
+    private void removeExerciseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeExerciseButtonActionPerformed
+        // Get Selected Row and Remove The Row
+        DefaultTableModel model = (DefaultTableModel) scheduleTable.getModel();
+        int row = scheduleTable.getSelectedRow();
+        model.removeRow(row);
+        
+        // If This is not the Last Remaining Row in the Table Keep Table
+        if (scheduleTable.getRowCount() != 0) return;
+        
+        // Else Remove the Table from the Database
+        ScheduleDA.deleteSchedule(currentViewedSchedule.getId());
+        getClientSchedules();
+    }//GEN-LAST:event_removeExerciseButtonActionPerformed
+
+    private void updateScheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateScheduleButtonActionPerformed
+        // Get A List of All the Exercises in the Table
+        ArrayList<Exercise> newExercises = new ArrayList<>();
+        int rows = scheduleTable.getRowCount();
+        for (int i = 0; i < rows; i++) {
+            Exercise e = new Exercise();
+            
+            e.setName((String) scheduleTable.getValueAt(i, 0));
+            e.setReps((int) scheduleTable.getValueAt(i, 1));
+            e.setSets((int) scheduleTable.getValueAt(i, 2));
+            e.setOrder(i);
+            e.setScheduleId(currentViewedSchedule.getId());
+            
+            newExercises.add(e);
+        }
+        
+        // Get A List of the Exercises Already in the Database
+        ArrayList<Exercise> oldExercises = ExerciseDA.getExercisesBySchedule(currentViewedSchedule);
+        
+        // Updates and creates exercises
+        for (Exercise newExercise : newExercises) {
+            boolean found = false;
+            for (Exercise oldExercise : oldExercises) {
+                // If The Exercises Exists in the Database Just Update it
+                if (newExercise.getId() == oldExercise.getId()) {
+                    found = true;
+                    ExerciseDA.updateExercise(newExercise);
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CoachUI().setVisible(true);
+            
+            // if the Exercise Doesn't Exists in the Database Add it
+            if (!found) {
+                ExerciseDA.createExercise(newExercise);
             }
-        });
+        }
+        
+        // Removes old Exercises
+        for (Exercise oldExercise : oldExercises) {
+            boolean found = false;
+            for (Exercise newExercise : newExercises) {
+                if (oldExercise.getId() == newExercise.getId()) {
+                    found = true;
+                    break;
+                }
+            }
+            // Remove The Exercise if It Doesn't Exist in the New Exercise List
+            if (!found) {
+                ExerciseDA.deleteExercise(oldExercise.getId());
+            }
+        }
+    }//GEN-LAST:event_updateScheduleButtonActionPerformed
+
+    private void newScheduleComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_newScheduleComboBoxItemStateChanged
+        // Skip if this Event is an Unselection Event
+        if (evt.getStateChange() == java.awt.event.ItemEvent.DESELECTED) return;
+        
+        // If no Schedule is Selected Disable The Adding Button
+        if (newScheduleComboBox.getSelectedIndex() == 0) {
+            addScheduleButton.setEnabled(false);
+            return;
+        }
+        
+        // If a Schedule is Selected Enable the Addition Button
+        addScheduleButton.setEnabled(true);
+    }//GEN-LAST:event_newScheduleComboBoxItemStateChanged
+
+    private void addScheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addScheduleButtonActionPerformed
+        // Create A new Schedule Object if it Doesn't Exist with Appropriate Day of the Week
+        // And Link the Object to the current Client then Add the Schedule to the Database
+        String weekDay = (String) newScheduleComboBox.getSelectedItem();
+        if (((DefaultComboBoxModel) weekdayComboBox.getModel()).getIndexOf(weekDay) != -1) return;
+        
+        Schedule s = new Schedule();
+        s.setWeekDay(weekDay);
+        s.setClientId(currentViewedClient.getId());
+        ScheduleDA.createSchedule(s);
+        
+        // Update Info on the Interface
+        getClientSchedules();
+    }//GEN-LAST:event_addScheduleButtonActionPerformed
+
+    private void updateCoachButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCoachButtonActionPerformed
+        // Validate Info in the Fields
+        if (!validateInfo()) return;
+        
+        // Get User Info
+        this.user.setPhoneNumber(phoneField.getText());
+        this.user.setEmail(emailField.getText());
+        
+        // Remove Error Message if Exists and update Interface and Database
+        errorMessage.setVisible(false);
+        updateCoachInfo();
+        CoachDA.updateCoach(this.user);
+    }//GEN-LAST:event_updateCoachButtonActionPerformed
+
+    private void scheduleTableValueChanged(ListSelectionEvent evt) {
+        // Skip if Value is Still Adjusting
+        if (evt.getValueIsAdjusting()) return;
+        
+        // If no Row Is Selected Disable Row Removing Button
+        int selectedRow = scheduleTable.getSelectedRow();
+        if (selectedRow == -1) {
+            removeExerciseButton.setEnabled(false);
+            return;
+        };
+        
+        // Else Enable the Row Removing Button
+        removeExerciseButton.setEnabled(true);
+    }
+    
+    private boolean validateInfo() {
+        // Sensitive Info
+        String phone = phoneField.getText();
+        String email = emailField.getText();
+        
+        // Validate Each Field
+        if (!(Validator.isEmail(email) || email.equals("")))
+            return CommonHelper.sendError(errorMessage, "Invalid Email");
+        if (!Validator.isPhone(phone))
+            return CommonHelper.sendError(errorMessage, "Invalid Phone Number");
+        
+        // Return True if All Fields are Valid
+        return true;
+    }
+    private void updateClientInfo() {
+        // Get User INfo
+        clientFullNameField.setText(currentViewedClient.toString());
+        clientAgeField.setText(
+                String.valueOf(
+                        CommonHelper.calculateAge(currentViewedClient.getBirthDate())
+                )
+        );
+        clientHeightField.setText(String.valueOf(currentViewedClient.getHeight()));
+        clientWeightField.setText(String.valueOf(currentViewedClient.getWeight()));
+    }
+    private void updateCoachInfo() {
+        // Get Coach Info
+        idValueLabel.setText(String.valueOf(this.user.getId()));
+        firstNameField.setText(this.user.getFirstName());
+        lastNameField.setText(this.user.getLastName());
+        birthDateSpinner.setValue(this.user.getBirthDate());
+        phoneField.setText(this.user.getPhoneNumber());
+        firstYearSpinner.setValue(this.user.getFirstYearDate());
+        emailField.setText(this.user.getEmail());
+        salaryField.setText(String.valueOf(this.user.getSalary()));
+    }
+    private void updateScheduleTable() {
+        // Get A List of All Exercises of the Current Schedule and Sort it
+        ArrayList<Exercise> exercises = ExerciseDA.getExercisesBySchedule(currentViewedSchedule);
+        exercises.sort(null);
+        
+        // Setup Table
+        DefaultTableModel model = new DefaultTableModel() {
+            Class[] types = {
+                String.class, Integer.class, Integer.class
+            };
+
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        };
+        model.addColumn("Exercise");
+        model.addColumn("Reps");
+        model.addColumn("Sets");
+        
+        // Add Row With the Exercise Data
+        for (Exercise e : exercises) {
+            Object[] data = new Object[3];
+            
+            data[0] = e.getName();
+            data[1] = e.getReps();
+            data[2] = e.getSets();
+            
+            model.addRow(data);
+        }
+        
+        // Apply Data in the new Table
+        scheduleTable.setModel(model);
+    }
+    private void getClients() {
+        // Get A List of All Clients of the Coach and Update ComboBox
+        ArrayList<Client> clients = ClientDA.getClientsByCoach(this.user);
+        clientComboBox.setModel(CommonHelper.createComboBox(clients));
+    }
+    private void getClientSchedules() {
+        // Get All Schedules of the current Client and update Schedules ComboBox
+        ArrayList<Schedule> schedules = ScheduleDA.getSchedulesByClient(currentViewedClient);
+        
+        weekdayComboBox.setModel(
+                CommonHelper.createComboBox(schedules)
+        );
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel clientsInfoTab;
+    private javax.swing.JButton addExerciseButton;
+    private javax.swing.JButton addScheduleButton;
+    private javax.swing.JLabel birthDateLabel;
+    private javax.swing.JSpinner birthDateSpinner;
+    private javax.swing.JLabel chooseClientLabel;
+    private javax.swing.JTextField clientAgeField;
+    private javax.swing.JLabel clientAgeLabel;
+    private javax.swing.JComboBox<String> clientComboBox;
+    private javax.swing.JTextField clientFullNameField;
+    private javax.swing.JLabel clientFullNameLabel;
+    private javax.swing.JTextField clientHeightField;
+    private javax.swing.JLabel clientHeightLabel;
+    private javax.swing.JTextField clientWeightField;
+    private javax.swing.JLabel clientWeightLabel;
     private javax.swing.JTabbedPane containerTabbedPane;
+    private javax.swing.JTextField emailField;
+    private javax.swing.JLabel emailLabel;
+    private javax.swing.JLabel errorMessage;
+    private javax.swing.JTextField firstNameField;
+    private javax.swing.JLabel firstNameLabel;
+    private javax.swing.JLabel firstYearLabel;
+    private javax.swing.JSpinner firstYearSpinner;
+    private javax.swing.JLabel idLabel;
+    private javax.swing.JLabel idValueLabel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField lastNameField;
+    private javax.swing.JLabel lastNameLabel;
+    private javax.swing.JComboBox<String> newScheduleComboBox;
+    private javax.swing.JLabel newScheduleLabel;
     private javax.swing.JPanel personalTab;
+    private javax.swing.JTextField phoneField;
+    private javax.swing.JLabel phoneLabel;
+    private javax.swing.JButton removeExerciseButton;
+    private javax.swing.JTextField salaryField;
+    private javax.swing.JLabel salaryLabel;
+    private javax.swing.JTable scheduleTable;
     private javax.swing.JPanel schedulesTab;
+    private javax.swing.JButton updateCoachButton;
+    private javax.swing.JButton updateScheduleButton;
+    private javax.swing.JComboBox<String> weekdayComboBox;
+    private javax.swing.JLabel weekdayLabel;
     // End of variables declaration//GEN-END:variables
+    
+    private Coach user;
+    private Client currentViewedClient;
+    private Schedule currentViewedSchedule;
 }

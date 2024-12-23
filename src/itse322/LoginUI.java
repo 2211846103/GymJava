@@ -4,6 +4,9 @@
  */
 package itse322;
 
+// Imports
+import com.formdev.flatlaf.IntelliJTheme;
+
 /**
  *
  * @author Zenjar
@@ -40,6 +43,9 @@ public class LoginUI extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(300, 400));
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -143,56 +149,58 @@ public class LoginUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void userIDTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userIDTextFieldFocusGained
+        // Acts as A Placeholder for this Field
         if (userIDTextField.getText().equals("Enter ID")) {
             userIDTextField.setText("");
         }
     }//GEN-LAST:event_userIDTextFieldFocusGained
 
     private void userIDTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userIDTextFieldFocusLost
+        // Acts as A Placeholder for this Field
         if (userIDTextField.getText().equals("")) {
             userIDTextField.setText("Enter ID");
         }
     }//GEN-LAST:event_userIDTextFieldFocusLost
 
     private void passwordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFieldFocusGained
+        // Acts as A Placeholder for this Field
         if (passwordField.getText().equals("Enter Password")) {
             passwordField.setText("");
         }
     }//GEN-LAST:event_passwordFieldFocusGained
 
     private void passwordFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFieldFocusLost
+        // Acts as A Placeholder for this Field
         if (passwordField.getText().equals("")) {
             passwordField.setText("Enter Password");
         }
     }//GEN-LAST:event_passwordFieldFocusLost
 
     private void loginButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMouseClicked
+        // Get Info in the Fields
         String userID = userIDTextField.getText();
-        String password = passwordField.getText();
+        String password = new String(passwordField.getPassword());
         
-        String userType = LoginHandler.checkUser(Integer.parseInt(userID), password);
-        if (userType.equals("")) {
+        // If Login Failed Display Error Message
+        if (!LoginHandler.login(Integer.parseInt(userID), password)) {
             errorMessage.setVisible(true);
             return;
         }
-        switch (userType) {
-            case "admin":
-                new AdminUI().setVisible(true);
-                break;
-            case "client":
-                new ClientUI().setVisible(true);
-                break;
-            case "coach":
-                new CoachUI().setVisible(true);
-        }
         
+        // IF Login Succeeded Close this Window
         this.dispose();
     }//GEN-LAST:event_loginButtonMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // Hide Error Message and Connect to Database
         errorMessage.setVisible(false);
         DBHandler.init();
     }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // Close Connection to the Database
+        DBHandler.close();
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -200,11 +208,10 @@ public class LoginUI extends javax.swing.JFrame {
     public static void main(String args[]) {
         /* Set the Flatlaf look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        try {
-            javax.swing.UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
-        } catch( Exception ex ) {
-            System.err.println( "Failed to initialize LaF" );
-        }
+        
+        IntelliJTheme.setup(
+            LoginUI.class.getResourceAsStream("Material_Darker.theme.json")
+        );
         //</editor-fold>
 
         /* Create and display the form */
