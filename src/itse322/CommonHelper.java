@@ -18,6 +18,9 @@ import java.util.ArrayList;
 public class CommonHelper {
     //Methods
     public static boolean sendError(JLabel errorLabel, String message) {
+        // Logging
+        LogHandler.info("Generating an Error Message");
+        
         // Setup the Message and Make the Error Visible
         errorLabel.setText(message);
         errorLabel.setVisible(true);
@@ -25,6 +28,9 @@ public class CommonHelper {
     }
     
     public static int calculateAge(java.util.Date birthDate) {
+        // Logging
+        LogHandler.info("Calculating Age");
+        
         // Calculate Age Given a Birth Date
         long milliseconds = System.currentTimeMillis() - birthDate.getTime();
         int years = (int) (milliseconds / (1000L * 60 * 60 * 24 * 365));
@@ -84,6 +90,9 @@ public class CommonHelper {
     }
     
     public static int addCredential(String type, String password) {
+        // Logging
+        LogHandler.info("Adding User's Credentials to the Database");
+        
         // Add the User to the Database
         DBHandler.update("INSERT INTO users_creds (user_type, user_pass) VALUES(?, ?)", type, password);
             
@@ -94,8 +103,12 @@ public class CommonHelper {
             if(!idResults.next()) throw new SQLException("User Creation Failed");
             id = idResults.getInt("LAST_INSERT_ID()");
         } catch (SQLException exp) {
-            exp.printStackTrace();
+            // Logging
+            LogHandler.info("Failed to Add User's Credentials");
         }
+        
+        // Logging
+        LogHandler.info("Added User's Credentials to the Database Successfully");
         
         // Return Retrieved ID
         return id;

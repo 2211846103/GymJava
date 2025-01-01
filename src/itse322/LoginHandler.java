@@ -12,6 +12,9 @@ import java.sql.*;
  */
 public class LoginHandler {
     public static boolean login(int userID, String userPass) {
+        // Logging
+        LogHandler.info("Looking for User in the Database");
+        
         // Get Specified User
         ResultSet rs = DBHandler.query("SELECT * FROM users_creds WHERE user_id=? AND user_pass=?", userID, userPass); 
         String type = "";
@@ -21,8 +24,13 @@ public class LoginHandler {
             if (!rs.next()) return false;
             type = rs.getString("user_type");
         } catch (SQLException exp) {
-            exp.printStackTrace();
+            // Logging
+            LogHandler.error("Failed to Find Specified Credentials");
         }
+        
+        // Logging
+        LogHandler.info("User Found Successfully");
+        LogHandler.info("Opening Appropriate Interface");
         
         // If the User Exists Open Appropriate Window
         switch (type) {
@@ -37,6 +45,9 @@ public class LoginHandler {
                 Coach coach = CoachDA.getCoachById(userID);
                 new CoachUI(coach).setVisible(true);
         }
+        
+        // Logging
+        LogHandler.info("Interface Opened Successfully");
         
         // Return True For Success
         return true;

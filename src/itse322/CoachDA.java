@@ -15,6 +15,9 @@ import java.util.ArrayList;
 public class CoachDA {
     // Methods
     public static void createCoach(Coach coach, String password) {
+        // Logging
+        LogHandler.info("Adding User to the Database");
+        
         // Add Coach's Password to the Database
         DBHandler.update("INSERT INTO users_creds (user_type, user_pass) VALUES('coach', ?)", password);
         
@@ -24,7 +27,8 @@ public class CoachDA {
             if(!idResults.next()) throw new SQLException("User Creation Failed");
              coach.setId(idResults.getInt("LAST_INSERT_ID()"));
         } catch (SQLException exp) {
-            exp.printStackTrace();
+            // Logging
+            LogHandler.error("Failed to Create a New User");
         }
         
         // Add Coach's Data to the Database
@@ -38,8 +42,14 @@ public class CoachDA {
                 coach.getFirstYear(),
                 coach.getSalary()
         );
+        
+        // Logging
+        LogHandler.info("Added User to the Database Successfully");
     }
     public static Coach getCoachById(int id) {
+        // Logging
+        LogHandler.info("Gathering Info about Specified User");
+        
         // Get Results from the Database and Initiate Coach Object
         ResultSet rs = DBHandler.query("SELECT * FROM coaches WHERE id=?", id);
         Coach user = new Coach();
@@ -57,13 +67,20 @@ public class CoachDA {
                 user.setSalary(rs.getFloat("salary"));
             }
         } catch (SQLException exp) {
-            exp.printStackTrace();
+            // Logging
+            LogHandler.error("Failed to Find Specified User");
         }
+        
+        // Logging
+        LogHandler.info("Found Specified User's Info");
         
         // Return Retrieved User
         return user;
     }
     public static ArrayList<Coach> getAllCoachs() {
+        // Logging
+        LogHandler.info("Assembling a List of all Coaches in the Database");
+        
         // Get Results from the Database and Initiate ArrayList
         ResultSet rs = DBHandler.query("SELECT * FROM coaches");
         ArrayList<Coach> users = new ArrayList<>();
@@ -84,27 +101,43 @@ public class CoachDA {
                 users.add(user);
             }
         } catch (SQLException exp) {
-            exp.printStackTrace();
+            // Logging
+            LogHandler.error("Failed to Collect Coaches in the System");
         }
+        
+        // Logging
+        LogHandler.info("Gathered Coaches in the System Successfully");
         
         // Return Retrieved Users
         return users;
     }
     public static void updateCoach(Coach coach) {
+        // Logging
+        LogHandler.info("Updating User's Info in the Database");
+        
         // Update the Database based on the Id of the Coach
         DBHandler.update("UPDATE coaches SET first_name=?, last_name=?, birth_date=?, tel=?, email=?, first_year=?, salary=? WHERE id=?",
                 coach.getFirstName(),
                 coach.getLastName(),
-                new java.sql.Date(coach.getBirthDate().getTime()),
+                new java.sql.Date(coach.getBirthDate().getTime() + (1000 * 60 * 60 * 24)),
                 coach.getPhoneNumber(),
                 coach.getEmail(),
                 coach.getFirstYear(),
                 coach.getSalary(),
                 coach.getId()
         );
+        
+        // Logging
+        LogHandler.info("Updated User's Info in the Database Successfully");
     }
     public static void deleteCoach(int id) {
+        // Logging
+        LogHandler.warn("Removing a User from the Databse");
+        
         // Delete Coach from the Database
         DBHandler.update("DELETE FROM coaches WHERE id=?", id);
+        
+        // Logging
+        LogHandler.warn("Removed a User from the Databse Successfully");
     }
 }
