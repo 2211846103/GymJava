@@ -9,7 +9,7 @@ import java.util.regex.*;
 
 /**
  *
- * @author Zenjar
+ 
  */
 public class Validator {
     // Define Patterns

@@ -9,12 +9,12 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Zenjar
+ 
  */
 public class ExerciseDA {
     public static void createExercise(Exercise e) {
         // Logging
-        LogHandler.info("Adding an Exercise to the Database");
+        LogController.info("Adding an Exercise to the Database");
         
         // Add the Exercise to the Database
         DBHandler.update("INSERT INTO exercises (name, sets, reps, e_order, schedule_id) VALUES(?, ?, ?, ?, ?)",
@@ -32,15 +32,15 @@ public class ExerciseDA {
              e.setId(idResults.getInt("LAST_INSERT_ID()"));
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed to Create a New Exercise");
+            LogController.error("Failed to Create a New Exercise");
         }
         
         // Logging
-        LogHandler.info("Exercise Created Successfully");
+        LogController.info("Exercise Created Successfully");
     }
     public static ArrayList<Exercise> getExercisesBySchedule(Schedule schedule) {
         // Logging
-        LogHandler.info("Gathering Specified Exercise's Info");
+        LogController.info("Gathering Specified Exercise's Info");
         
         // Get All the Exercise from the Schedule's ID
         ResultSet rs = DBHandler.query("SELECT * FROM exercises WHERE schedule_id=?", schedule.getId());
@@ -62,18 +62,18 @@ public class ExerciseDA {
             }
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed to Find Specified Exercise");
+            LogController.error("Failed to Find Specified Exercise");
         }
         
         // Logging
-        LogHandler.info("Specified Exercise's Info Found Successfully");
+        LogController.info("Specified Exercise's Info Found Successfully");
         
         // Return Resulted List
         return exercises;
     }
     public static void updateExercise(Exercise e) {
         // Logging
-        LogHandler.info("Updating Exercise's Info in the Database");
+        LogController.info("Updating Exercise's Info in the Database");
         
         // Update Database Based on the Exercise's Info
         DBHandler.update("UPDATE exercises SET name=?, sets=?, reps=?, e_order=? WHERE id=?",
@@ -85,16 +85,16 @@ public class ExerciseDA {
         );
         
         // Logging
-        LogHandler.info("Updated Exercise's Info in the Database");
+        LogController.info("Updated Exercise's Info in the Database");
     }
     public static void deleteExercise(int id) {
         // Logging
-        LogHandler.warn("Removing an Exercise from the Database");
+        LogController.warn("Removing an Exercise from the Database");
         
         // Delete from the Database Using ID
         DBHandler.update("DELETE FROM exercises WHERE id=?", id);
         
         // Logging
-        LogHandler.warn("Removed Exercise from the Database Successfully");
+        LogController.warn("Removed Exercise from the Database Successfully");
     }
 }

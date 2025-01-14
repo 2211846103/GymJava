@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Zenjar
+ 
  */
 public class ClientUI extends javax.swing.JFrame {
 
@@ -487,18 +487,18 @@ public class ClientUI extends javax.swing.JFrame {
     }
     private void updateSchedules() {
         // Logging
-        LogHandler.info("Gathering Info About User's Schedules");
+        LogController.info("Gathering Info About User's Schedules");
         
         // Get All Schedules of Client and Set ComboBox
         ArrayList<Schedule> schedules = ScheduleDA.getSchedulesByClient(this.user);
         weekSelector.setModel(CommonHelper.createComboBox(schedules));
         
         // Logging
-        LogHandler.info("Gathered User's Schedules Successfully");
+        LogController.info("Gathered User's Schedules Successfully");
     }
     private void setSchedule(Schedule s) {
         // Logging
-        LogHandler.info("Getting Exercises Available to the Current Schedule");
+        LogController.info("Getting Exercises Available to the Current Schedule");
         
         // Get All Exercises of Schedule and Sort them
         ArrayList<Exercise> exercises = ExerciseDA.getExercisesBySchedule(s);
@@ -534,7 +534,7 @@ public class ClientUI extends javax.swing.JFrame {
         trainingSchedule.setModel(model);
         
         // Logging
-        LogHandler.info("Exercises are Available to the Current Schedule now");
+        LogController.info("Exercises are Available to the Current Schedule now");
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -9,7 +9,7 @@ import java.sql.*;
 
 /**
  *
- * @author Zenjar
+
  */
 public class DBHandler {
     // Drivers and URL
@@ -28,14 +28,14 @@ public class DBHandler {
     
     public static void init() {
         // Logging
-        LogHandler.info("Connecting to the Database");
+        LogController.info("Connecting to the Database");
         
         // Init JDBC Driver
         try {
             Class.forName(JDBC_DRIVER);
         } catch (ClassNotFoundException exp) {
             // Logging
-            LogHandler.fatal("JDBC Driver not Found");
+            LogController.fatal("JDBC Driver not Found");
         }
         
         // Connect to Database
@@ -43,7 +43,7 @@ public class DBHandler {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
         } catch (SQLException exp) {
             // Logging
-            LogHandler.fatal("Failed to Connect to the Database");
+            LogController.fatal("Failed to Connect to the Database");
         }
         
         // Setup Statement Object
@@ -51,7 +51,7 @@ public class DBHandler {
             statement = conn.createStatement();
         } catch (SQLException exp) {
             // Logging
-            LogHandler.fatal("Failed to Create Database Statement Object");
+            LogController.fatal("Failed to Create Database Statement Object");
         }
     }
     
@@ -67,7 +67,7 @@ public class DBHandler {
             updateCount = statement.executeUpdate(sql);
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed to Execute Database Query");
+            LogController.error("Failed to Execute Database Query");
         }
         return updateCount;
     }
@@ -86,7 +86,7 @@ public class DBHandler {
             updateCount = preStatement.executeUpdate();
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed to Execute Database Query");
+            LogController.error("Failed to Execute Database Query");
         }
         return updateCount;
     }
@@ -97,7 +97,7 @@ public class DBHandler {
             rs = statement.executeQuery(sql);
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed to Execute Database Query");
+            LogController.error("Failed to Execute Database Query");
         }
         
         return rs;
@@ -116,7 +116,7 @@ public class DBHandler {
             rs = preStatement.executeQuery();
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed to Execute Database Query");
+            LogController.error("Failed to Execute Database Query");
         }
         
         return rs;
@@ -126,15 +126,15 @@ public class DBHandler {
         // Close Connection to the Database
         try {
             // Logging
-            LogHandler.info("Closing Connection to the Database");
+            LogController.info("Closing Connection to the Database");
             
             conn.close();
         } catch (SQLException exp) {
             // Logging
-            LogHandler.info("Failed to Close Connection to the Database");
+            LogController.info("Failed to Close Connection to the Database");
         }
         
         // Logging
-        LogHandler.info("Closed Connection to the Database Successfully");
+        LogController.info("Closed Connection to the Database Successfully");
     }
 }

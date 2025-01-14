@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 /**
  *
- * @author Zenjar
+ 
  */
 public class Schedule implements Comparable<Schedule> {
     // Constants

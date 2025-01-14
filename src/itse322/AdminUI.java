@@ -9,12 +9,9 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.util.ArrayList;
-
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 /**
  *
- * @author Zenjar
+ 
  */
 public class AdminUI extends javax.swing.JFrame {
 
@@ -29,13 +26,13 @@ public class AdminUI extends javax.swing.JFrame {
         coachErrorMessage.setVisible(false);
         
         // Logging
-        LogHandler.info("Gathering Info about System Users");
+        LogController.info("Gathering Info about System Users");
         
         // Acquire all users in the database
         clients = ClientDA.getAllClients();
         coaches = CoachDA.getAllCoachs();
         
-        LogHandler.info("Gathered Info about System Users Successfully");
+        LogController.info("Gathered Info about System Users Successfully");
         
         // Intiate the indices as the last element right after
         // the last user in each list (represents Adding Mode)
@@ -595,7 +592,7 @@ public class AdminUI extends javax.swing.JFrame {
 
     private void coachUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coachUpdateButtonActionPerformed
         // Logging
-        LogHandler.info("Coach Info has been Submitted");
+        LogController.info("Coach Info has been Submitted");
         
         // Get Info
         if (!validateCoachInfo()) return;
@@ -605,7 +602,7 @@ public class AdminUI extends javax.swing.JFrame {
         // Add User if in Adding Mode
         if (isAddingUser(coachCurrentIndex, coaches)) {
             // Logging
-            LogHandler.info("Adding New Coach to the System");
+            LogController.info("Adding New Coach to the System");
             
             // Add User to the Database and Update coaches List
             CoachDA.createCoach(user, password);
@@ -616,12 +613,12 @@ public class AdminUI extends javax.swing.JFrame {
             resetInfo(coachInfoPanel);
             
             // Logging
-            LogHandler.info("Added a New Coach to the System Successfully");
+            LogController.info("Added a New Coach to the System Successfully");
             return;
         }
         
         // Logging
-        LogHandler.info("Updating Coach Info in the System");
+        LogController.info("Updating Coach Info in the System");
         
         // Update User Password if Supplied
         // And Update the User's Info
@@ -629,24 +626,24 @@ public class AdminUI extends javax.swing.JFrame {
         user.setId(id);
         if (!password.equals("")) {
             // Logging
-            LogHandler.info("Updating Coach Credentials");
+            LogController.info("Updating Coach Credentials");
             
             DBHandler.update("UPDATE users_creds SET user_pass=? WHERE id=?", password, id);
             
             // Logging
-            LogHandler.info("Updated Coach Credentials Successfully");
+            LogController.info("Updated Coach Credentials Successfully");
         }
         CoachDA.updateCoach(user);
         coaches.set(coachCurrentIndex, user);
         updateCoachTable();
         
         // Logging
-        LogHandler.info("Updated Coach Info in the System Successfully");
+        LogController.info("Updated Coach Info in the System Successfully");
     }//GEN-LAST:event_coachUpdateButtonActionPerformed
 
     private void coachRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coachRemoveButtonActionPerformed
         // Logging
-        LogHandler.warn("Removing User from the System");
+        LogController.warn("Removing User from the System");
         
         // Remove User from Database and Update coaches List
         CoachDA.deleteCoach(coaches.get(coachCurrentIndex).getId());
@@ -654,12 +651,12 @@ public class AdminUI extends javax.swing.JFrame {
         updateCoachTable();
         
         // Logging
-        LogHandler.warn("Removed User from the System Successfully");
+        LogController.warn("Removed User from the System Successfully");
     }//GEN-LAST:event_coachRemoveButtonActionPerformed
 
     private void clientUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientUpdateButtonActionPerformed
         // Logging
-        LogHandler.info("Coach Info has been Submitted");
+        LogController.info("Coach Info has been Submitted");
 
         // Get Info
         if (!validateClientInfo()) return;
@@ -668,7 +665,7 @@ public class AdminUI extends javax.swing.JFrame {
         
         if (isAddingUser(clientCurrentIndex, clients)) {
             // Logging
-            LogHandler.info("Adding New Coach to the System");
+            LogController.info("Adding New Coach to the System");
             
             // Add User to the Database and Update clients List
             ClientDA.createClient(user, password);
@@ -679,12 +676,12 @@ public class AdminUI extends javax.swing.JFrame {
             resetInfo(clientInfoPanel);
             
             // Logging
-            LogHandler.info("Added a New Coach to the System Successfully");
+            LogController.info("Added a New Coach to the System Successfully");
             return;
         }
         
         // Logging
-        LogHandler.info("Updating Coach Info in the System");
+        LogController.info("Updating Coach Info in the System");
         
         // Update User Password if Supplied
         // And Update the User's Info
@@ -692,24 +689,24 @@ public class AdminUI extends javax.swing.JFrame {
         user.setId(id);
         if (!password.equals("")) {
             // Logging
-            LogHandler.info("Updating Coach Credentials");
+            LogController.info("Updating Coach Credentials");
             
             DBHandler.update("UPDATE users_creds SET user_pass=? WHERE id=?", password, id);
             
             // Logging
-            LogHandler.info("Updated Coach Credentials Successfully");
+            LogController.info("Updated Coach Credentials Successfully");
         }
         ClientDA.updateClient(user);
         clients.set(clientCurrentIndex, user);
         updateClientTable();
         
         // Logging
-        LogHandler.info("Updated Coach Info in the System Successfully");
+        LogController.info("Updated Coach Info in the System Successfully");
     }//GEN-LAST:event_clientUpdateButtonActionPerformed
 
     private void clientRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientRemoveButtonActionPerformed
         // Logging
-        LogHandler.warn("Removing User from the System");
+        LogController.warn("Removing User from the System");
 
         // Remove User from Database and Update clients List
         ClientDA.deleteClient(clients.get(clientCurrentIndex).getId());
@@ -717,12 +714,12 @@ public class AdminUI extends javax.swing.JFrame {
         updateClientTable();
         
         // Logging
-        LogHandler.warn("Removed User from the System Successfully");
+        LogController.warn("Removed User from the System Successfully");
     }//GEN-LAST:event_clientRemoveButtonActionPerformed
 
     private void clientRenewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientRenewButtonActionPerformed
         // Logging
-        LogHandler.info("Renewing User's Subscription");
+        LogController.info("Renewing User's Subscription");
         
         // Get Client Affected and Update Expiry Date to be 30 Days from Now
         // Then Send New Data to the Database
@@ -737,7 +734,7 @@ public class AdminUI extends javax.swing.JFrame {
         updateClientInfo(current);
         
         // Logging
-        LogHandler.info("Renewed User's Subscription Successfully");
+        LogController.info("Renewed User's Subscription Successfully");
     }//GEN-LAST:event_clientRenewButtonActionPerformed
  
     private void coachTableValueChanged(ListSelectionEvent evt) {
@@ -1009,6 +1006,4 @@ public class AdminUI extends javax.swing.JFrame {
     
     private ArrayList<Client> clients;
     private ArrayList<Coach> coaches;
-    
-    private Logger logger;
 }

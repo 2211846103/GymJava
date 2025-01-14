@@ -9,7 +9,7 @@ import com.formdev.flatlaf.IntelliJTheme;
 
 /**
  *
- * @author Zenjar
+ 
  */
 public class LoginUI extends javax.swing.JFrame {
 
@@ -183,7 +183,7 @@ public class LoginUI extends javax.swing.JFrame {
 
     private void loginButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMouseClicked
         // Logging
-        LogHandler.info("Attempted to Access to the System");
+        LogController.info("Attempted to Access to the System");
 
         // Get Info in the Fields
         String userID = userIDTextField.getText();
@@ -194,13 +194,13 @@ public class LoginUI extends javax.swing.JFrame {
             errorMessage.setVisible(true);
             
             // Logging
-            LogHandler.error("Invalid Credentials has been Inserted");
-            LogHandler.error("Failed Attempt to Access the System");
+            LogController.error("Invalid Credentials has been Inserted");
+            LogController.error("Failed Attempt to Access the System");
             return;
         }
         
         // Logging
-        LogHandler.info("Successful Access to the System");
+        LogController.info("Successful Access to the System");
         
         // If Login Succeeded Close this Window
         this.dispose();

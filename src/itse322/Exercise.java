@@ -6,7 +6,7 @@ package itse322;
 
 /**
  *
- * @author Zenjar
+
  */
 public class Exercise implements Comparable<Exercise> {
     // Members

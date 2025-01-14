@@ -13,7 +13,7 @@
     </Appenders>
 
     <Loggers>
-        <Root level="info">
+        <Root level="INFO">
 		<AppenderRef ref="console" />
 		<AppenderRef ref="full" />
 		<AppenderRef ref="latest" />

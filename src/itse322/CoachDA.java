@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Zenjar
+ 
  */
 public class CoachDA {
     // Methods
     public static void createCoach(Coach coach, String password) {
         // Logging
-        LogHandler.info("Adding User to the Database");
+        LogController.info("Adding User to the Database");
         
         // Add Coach's Password to the Database
         DBHandler.update("INSERT INTO users_creds (user_type, user_pass) VALUES('coach', ?)", password);
@@ -28,7 +28,7 @@ public class CoachDA {
              coach.setId(idResults.getInt("LAST_INSERT_ID()"));
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed to Create a New User");
+            LogController.error("Failed to Create a New User");
         }
         
         // Add Coach's Data to the Database
@@ -44,11 +44,11 @@ public class CoachDA {
         );
         
         // Logging
-        LogHandler.info("Added User to the Database Successfully");
+        LogController.info("Added User to the Database Successfully");
     }
     public static Coach getCoachById(int id) {
         // Logging
-        LogHandler.info("Gathering Info about Specified User");
+        LogController.info("Gathering Info about Specified User");
         
         // Get Results from the Database and Initiate Coach Object
         ResultSet rs = DBHandler.query("SELECT * FROM coaches WHERE id=?", id);
@@ -68,18 +68,18 @@ public class CoachDA {
             }
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed to Find Specified User");
+            LogController.error("Failed to Find Specified User");
         }
         
         // Logging
-        LogHandler.info("Found Specified User's Info");
+        LogController.info("Found Specified User's Info");
         
         // Return Retrieved User
         return user;
     }
     public static ArrayList<Coach> getAllCoachs() {
         // Logging
-        LogHandler.info("Assembling a List of all Coaches in the Database");
+        LogController.info("Assembling a List of all Coaches in the Database");
         
         // Get Results from the Database and Initiate ArrayList
         ResultSet rs = DBHandler.query("SELECT * FROM coaches");
@@ -102,18 +102,18 @@ public class CoachDA {
             }
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed to Collect Coaches in the System");
+            LogController.error("Failed to Collect Coaches in the System");
         }
         
         // Logging
-        LogHandler.info("Gathered Coaches in the System Successfully");
+        LogController.info("Gathered Coaches in the System Successfully");
         
         // Return Retrieved Users
         return users;
     }
     public static void updateCoach(Coach coach) {
         // Logging
-        LogHandler.info("Updating User's Info in the Database");
+        LogController.info("Updating User's Info in the Database");
         
         // Update the Database based on the Id of the Coach
         DBHandler.update("UPDATE coaches SET first_name=?, last_name=?, birth_date=?, tel=?, email=?, first_year=?, salary=? WHERE id=?",
@@ -128,16 +128,16 @@ public class CoachDA {
         );
         
         // Logging
-        LogHandler.info("Updated User's Info in the Database Successfully");
+        LogController.info("Updated User's Info in the Database Successfully");
     }
     public static void deleteCoach(int id) {
         // Logging
-        LogHandler.warn("Removing a User from the Databse");
+        LogController.warn("Removing a User from the Databse");
         
         // Delete Coach from the Database
         DBHandler.update("DELETE FROM coaches WHERE id=?", id);
         
         // Logging
-        LogHandler.warn("Removed a User from the Databse Successfully");
+        LogController.warn("Removed a User from the Databse Successfully");
     }
 }

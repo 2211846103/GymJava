@@ -9,10 +9,10 @@ import org.apache.logging.log4j.Logger;
 
 /**
  *
- * @author Zenjar
+ 
  */
-public class LogHandler {
-    private static final Logger log = LogManager.getLogger(LogHandler.class);
+public class LogController {
+    private static final Logger log = LogManager.getLogger(Logger.class);
     
     public static void info(String message) {
         log.info(message);

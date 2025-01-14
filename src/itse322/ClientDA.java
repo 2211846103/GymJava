@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Zenjar
+ 
  */
 public class ClientDA {
     // Methods
     public static void createClient(Client client, String password) {
         // Logging
-        LogHandler.info("Adding a Client to the Database");
+        LogController.info("Adding a Client to the Database");
         
         // Add Client's Password to the Database
         DBHandler.update("INSERT INTO users_creds (user_type, user_pass) VALUES('client', ?)", password);
@@ -28,7 +28,7 @@ public class ClientDA {
              client.setId(idResults.getInt("LAST_INSERT_ID()"));
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed To Create a User");
+            LogController.error("Failed To Create a User");
             return;
         }
         
@@ -48,11 +48,11 @@ public class ClientDA {
         );
         
         // Logging
-        LogHandler.info("Added a Client to the Database Successfully");
+        LogController.info("Added a Client to the Database Successfully");
     }
     public static Client getClientById(int id) {
         //Logging
-        LogHandler.info("Getting Client's Info");
+        LogController.info("Getting Client's Info");
         
         // Get Results from the Database and Initiate Client Object
         ResultSet rs = DBHandler.query("SELECT * FROM clients WHERE id=?", id);
@@ -74,19 +74,19 @@ public class ClientDA {
             user.setCoachId(rs.getInt("coach_id"));
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed to Find the User");
+            LogController.error("Failed to Find the User");
             return null;
         }
         
         // Logging
-        LogHandler.info("Found User Successfully");
+        LogController.info("Found User Successfully");
         
         // Return Retrieved User
         return user;
     }
     public static ArrayList<Client> getAllClients() {
         // Logging
-        LogHandler.info("Gathering all Users in the Database");
+        LogController.info("Gathering all Users in the Database");
         
         // Get Results from the Database and Initiate ArrayList
         ResultSet rs = DBHandler.query("SELECT * FROM clients");
@@ -112,19 +112,19 @@ public class ClientDA {
             }
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed to Gather the Users");
+            LogController.error("Failed to Gather the Users");
             return null;
         }
         
         // Logging
-        LogHandler.info("Gathered the Users Successfully");
+        LogController.info("Gathered the Users Successfully");
         
         // Return Retrieved Users
         return users;
     }
     public static ArrayList<Client> getClientsByCoach(Coach coach) {
         //Logging
-        LogHandler.info("Getting Client's Info");
+        LogController.info("Getting Client's Info");
         
         // Get Results from the Database and Initiate ArrayList
         ResultSet rs = DBHandler.query("SELECT * FROM clients WHERE coach_id=?", coach.getId());
@@ -150,19 +150,19 @@ public class ClientDA {
             }
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed to Find the User");
+            LogController.error("Failed to Find the User");
             return null;
         }
         
         // Logging
-        LogHandler.info("Found User Successfully");
+        LogController.info("Found User Successfully");
         
         // Return Retrieved Users
         return clients;
     }
     public static void updateClient(Client client) {
         // Logging
-        LogHandler.info("Updating User's Info in the Database");
+        LogController.info("Updating User's Info in the Database");
         
         // Update the Database based on the Id of the Client
         DBHandler.update("UPDATE clients SET first_name=?, last_name=?, birth_date=?, gender=?, sub_tier=?, expiry_date=?, height=?, weight=?, tel=?, coach_id=? WHERE id=?",
@@ -180,16 +180,16 @@ public class ClientDA {
         );
         
         // Logging
-        LogHandler.info("Updated User's Info in the Databse Successfully");
+        LogController.info("Updated User's Info in the Databse Successfully");
     }
     public static void deleteClient(int id) {
         // Logging
-        LogHandler.warn("Removing User from the Database");
+        LogController.warn("Removing User from the Database");
         
         // Delete Client from the Database
         DBHandler.update("DELETE FROM clients WHERE id=?", id);
         
         // Logging
-        LogHandler.warn("Removed User from the Database Successfully");
+        LogController.warn("Removed User from the Database Successfully");
     }
 }

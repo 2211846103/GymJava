@@ -9,12 +9,12 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Zenjar
+ 
  */
 public class ScheduleDA {
     public static void createSchedule(Schedule s) {
         // Logging
-        LogHandler.info("Adding a Schedule to the Database");
+        LogController.info("Adding a Schedule to the Database");
         
         // Add the Schedule's Info to the Database
         DBHandler.update("INSERT INTO schedules (weekday, client_id) VALUES(?, ?)",
@@ -29,15 +29,15 @@ public class ScheduleDA {
              s.setId(idResults.getInt("LAST_INSERT_ID()"));
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed to Create a New Schedule");
+            LogController.error("Failed to Create a New Schedule");
         }
         
         // Logging
-        LogHandler.info("Schedule Created Successfully");
+        LogController.info("Schedule Created Successfully");
     }
     public static ArrayList<Schedule> getSchedulesByClient(Client client) {
         // Logging
-        LogHandler.info("Gathering Specified Schedule's Info");
+        LogController.info("Gathering Specified Schedule's Info");
         
         // Get Schedules Based on a Client's ID
         ResultSet rs = DBHandler.query("SELECT * FROM schedules WHERE client_id=?", client.getId());
@@ -56,23 +56,23 @@ public class ScheduleDA {
             }
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed to Find Specified Schedule");
+            LogController.error("Failed to Find Specified Schedule");
         }
         
         // Logging
-        LogHandler.info("Found Specified Schedule");
+        LogController.info("Found Specified Schedule");
         
         // Return Schedules List
         return schedules;
     }
     public static void deleteSchedule(int id) {
         // Logging
-        LogHandler.warn("Removing a Schedule from the Database");
+        LogController.warn("Removing a Schedule from the Database");
         
         // Remove Schedule From Database Based on Schedule's ID
         DBHandler.update("DELETE FROM schedules WHERE id=?", id);
         
         // Logging
-        LogHandler.warn("Removed Schedule from the Datbase Successfully");
+        LogController.warn("Removed Schedule from the Datbase Successfully");
     }
 }

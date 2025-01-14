@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  *
- * @author Zenjar
+ 
  */
 public abstract class User {
     // Members

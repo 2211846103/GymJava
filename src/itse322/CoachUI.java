@@ -12,7 +12,7 @@ import javax.swing.DefaultComboBoxModel;
 
 /**
  *
- * @author Zenjar
+
  */
 public class CoachUI extends javax.swing.JFrame {
 
@@ -420,16 +420,16 @@ public class CoachUI extends javax.swing.JFrame {
         if (!DBHandler.isConnected()) DBHandler.init();
         
         // Logging
-        LogHandler.info("Gathering User's Info");
-        LogHandler.info("Gathering User's Clients");
+        LogController.info("Gathering User's Info");
+        LogController.info("Gathering User's Clients");
         
         // Update Info in Interfaces
         updateCoachInfo();
         getClients();
         
         // Logging
-        LogHandler.info("Gathered User's Info Successfully");
-        LogHandler.info("Gathered User's Clients Successfully");
+        LogController.info("Gathered User's Info Successfully");
+        LogController.info("Gathered User's Clients Successfully");
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -452,7 +452,7 @@ public class CoachUI extends javax.swing.JFrame {
         }
         
         // Logging
-        LogHandler.info("A Client has been Selected");
+        LogController.info("A Client has been Selected");
         
         // If a Client is Selected Enable Selecting a Schedule
         // And Enable Addition of a new Schedule
@@ -477,7 +477,7 @@ public class CoachUI extends javax.swing.JFrame {
         }
         
         // Logging
-        LogHandler.info("A Schedule has been Selected");
+        LogController.info("A Schedule has been Selected");
         
         // If a Day is Selected Enable Selecting a Addition of Exercises
         // And Updating Schedule's Existing Exercises
@@ -491,19 +491,19 @@ public class CoachUI extends javax.swing.JFrame {
 
     private void addExerciseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addExerciseButtonActionPerformed
         // Logging
-        LogHandler.info("Adding a New Exercise to the Schedule");
+        LogController.info("Adding a New Exercise to the Schedule");
         
         // Add A new Empty Row to the Table
         DefaultTableModel model = (DefaultTableModel) scheduleTable.getModel();
         model.addRow(new Object[]{"", "", ""});
         
         // Logging
-        LogHandler.info("Added a New Exercise to the Schedule Successfully");
+        LogController.info("Added a New Exercise to the Schedule Successfully");
     }//GEN-LAST:event_addExerciseButtonActionPerformed
 
     private void removeExerciseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeExerciseButtonActionPerformed
         // Logging
-        LogHandler.info("Removing an Exercise from the Schedule");
+        LogController.info("Removing an Exercise from the Schedule");
 
         // Get Selected Row and Remove The Row
         DefaultTableModel model = (DefaultTableModel) scheduleTable.getModel();
@@ -518,12 +518,12 @@ public class CoachUI extends javax.swing.JFrame {
         getClientSchedules();
         
         // Logging
-        LogHandler.info("Removed an Exercise from the Schedule Successfully");
+        LogController.info("Removed an Exercise from the Schedule Successfully");
     }//GEN-LAST:event_removeExerciseButtonActionPerformed
 
     private void updateScheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateScheduleButtonActionPerformed
         // Logging
-        LogHandler.info("Updating the Schedule with the Current Table");
+        LogController.info("Updating the Schedule with the Current Table");
         
         // Get A List of All the Exercises in the Table
         ArrayList<Exercise> newExercises = new ArrayList<>();
@@ -577,7 +577,7 @@ public class CoachUI extends javax.swing.JFrame {
         }
         
         // Logging
-        LogHandler.info("Updated the Schedule with the Current Table Successfully");
+        LogController.info("Updated the Schedule with the Current Table Successfully");
     }//GEN-LAST:event_updateScheduleButtonActionPerformed
 
     private void newScheduleComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_newScheduleComboBoxItemStateChanged
@@ -596,7 +596,7 @@ public class CoachUI extends javax.swing.JFrame {
 
     private void addScheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addScheduleButtonActionPerformed
         // Logging
-        LogHandler.info("Adding a new Schedule to the Client's List");
+        LogController.info("Adding a new Schedule to the Client's List");
         
         // Create A new Schedule Object if it Doesn't Exist with Appropriate Day of the Week
         // And Link the Object to the current Client then Add the Schedule to the Database
@@ -612,12 +612,12 @@ public class CoachUI extends javax.swing.JFrame {
         getClientSchedules();
         
         // Logging
-        LogHandler.info("Added a new Schedule to the Client's List Successfully");
+        LogController.info("Added a new Schedule to the Client's List Successfully");
     }//GEN-LAST:event_addScheduleButtonActionPerformed
 
     private void updateCoachButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCoachButtonActionPerformed
         // Logging
-        LogHandler.info("Updating User's Personal Info");
+        LogController.info("Updating User's Personal Info");
         
         // Validate Info in the Fields
         if (!validateInfo()) return;
@@ -632,7 +632,7 @@ public class CoachUI extends javax.swing.JFrame {
         CoachDA.updateCoach(this.user);
         
         // Logging
-        LogHandler.info("Updated User's Personal Info Successfully");
+        LogController.info("Updated User's Personal Info Successfully");
     }//GEN-LAST:event_updateCoachButtonActionPerformed
 
     private void scheduleTableValueChanged(ListSelectionEvent evt) {
@@ -688,7 +688,7 @@ public class CoachUI extends javax.swing.JFrame {
     }
     private void updateScheduleTable() {
         // Logging
-        LogHandler.info("Acquiring Exercises Bound to the Schedule");
+        LogController.info("Acquiring Exercises Bound to the Schedule");
         
         // Get A List of All Exercises of the Current Schedule and Sort it
         ArrayList<Exercise> exercises = ExerciseDA.getExercisesBySchedule(currentViewedSchedule);
@@ -724,7 +724,7 @@ public class CoachUI extends javax.swing.JFrame {
         scheduleTable.setModel(model);
         
         // Logging
-        LogHandler.info("Acquired Exercises Bound to the Schedule Successfully");
+        LogController.info("Acquired Exercises Bound to the Schedule Successfully");
     }
     private void getClients() {
         // Get A List of All Clients of the Coach and Update ComboBox

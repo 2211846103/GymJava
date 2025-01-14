@@ -8,12 +8,12 @@ import java.sql.*;
 
 /**
  *
- * @author Zenjar
+ 
  */
 public class LoginHandler {
     public static boolean login(int userID, String userPass) {
         // Logging
-        LogHandler.info("Looking for User in the Database");
+        LogController.info("Looking for User in the Database");
         
         // Get Specified User
         ResultSet rs = DBHandler.query("SELECT * FROM users_creds WHERE user_id=? AND user_pass=?", userID, userPass); 
@@ -25,12 +25,12 @@ public class LoginHandler {
             type = rs.getString("user_type");
         } catch (SQLException exp) {
             // Logging
-            LogHandler.error("Failed to Find Specified Credentials");
+            LogController.error("Failed to Find Specified Credentials");
         }
         
         // Logging
-        LogHandler.info("User Found Successfully");
-        LogHandler.info("Opening Appropriate Interface");
+        LogController.info("User Found Successfully");
+        LogController.info("Opening Appropriate Interface");
         
         // If the User Exists Open Appropriate Window
         switch (type) {
@@ -47,7 +47,7 @@ public class LoginHandler {
         }
         
         // Logging
-        LogHandler.info("Interface Opened Successfully");
+        LogController.info("Interface Opened Successfully");
         
         // Return True For Success
         return true;

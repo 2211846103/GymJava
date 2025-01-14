@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  *
- * @author Zenjar
+ 
  */
 public class Coach extends User {
     // Members
